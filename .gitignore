@@ -3,4 +3,5 @@ aaabin/
 
 # folders for virtual environments and environment variables:
 venv/
+venv39/
 .env
