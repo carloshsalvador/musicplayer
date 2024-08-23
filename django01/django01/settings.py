@@ -11,22 +11,56 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+import dj_database_url
+import whitenoise
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# __file__ works only when settings.py file is called from the shell!
+# it means, the variable BASE_DIR will be not set by runing the code here, but by running the code in the shell!
+# for test only, use the python terminal to set the path manually, e.g.: __file__ = 'musicplayer\django01\django01\settings.py'
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-
+# **** SECURITY WARNING ****
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-&na9@6!(dr09@-hcwfumx8e$1)10+f9ac$7_v+uv&@1*n^lq7i'
+load_dotenv(dotenv_path=BASE_DIR / '.env') # .env on .gitignore!
+SECRET_KEY = os.getenv('SECRET_KEY') # keep the secret key used in production secret!
+DEBUG = os.getenv('DEBUG') == 'True' # don't run with debug turned on in production!
+# security for middleware:
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
 
+# website domain name or IP address:
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '')
+
+
+# Database (PostgreSQL) with dj_database_url to parse the DATABASE_URL environment variable
+DATABASES = {
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+}
+
+# Static files (CSS, JavaScript, Images):
+# use library whitenoise at Heroku to serve static files in production
+# https://whitenoise.evans.io/en/stable/django.html
+MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+]
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Application definition
 

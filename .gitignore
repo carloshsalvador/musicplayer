@@ -5,3 +5,4 @@ aaabin/
 venv/
 venv39/
 .env
+*/.env
