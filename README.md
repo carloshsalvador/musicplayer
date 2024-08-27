@@ -157,7 +157,9 @@ Vercel would work better for static webpage and as far as I could undestand woul
 ### Additional Notes
 
 - **Django REST Framework**: Necessary for creating RESTful APIs in Django.
-- **Environment Variables**: Store sensitive information like API keys and database credentials securely.
+- **Environment Variables**:
+    - Store sensitive information like API keys and database credentials securely.
+    - .dockerignore and .env: 
 
 security variáveis de ambiente!.. só .env + .gitingore não adianta porque docker built copia .env, portanto tem que ter tb .dockerignore ...OPÇÃO 2: back4app tb tem opção de fornecer as variávies de ambeinte na hora de criar o deploy do app, como se estivesse configurando as variáveis de ambiente direto no servidor. Talvez seja ainda mais seguro pelo o que entendi, mas preferi não usar essa opção por enquanto, até mesmo para testar a segurança - Professor, tenta acessar as vars?!... desfio para Hacker?
 
