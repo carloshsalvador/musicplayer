@@ -34,7 +34,7 @@ The topics I have faced on the begining were:
 
 ## Frontend & Backend and the Framework
 
-A music player app requires more elemente for the user experience ([UX](https://en.wikipedia.org/wiki/User_experience)) because they interacts much more dynamically rewriting the current web page with new data from the web server by searching music and different states like play and stop, instead of the more traditional method of loading entire new pages (or static web page) after any user's requires (~ user's clicks). The important key here was then the search engine optimization ([SEO]()) to imporve the quality and quantity of website traffic and the choice a modern type of aplication for this project, such as the Simple-Page-Aplication ([SAP](https://en.wikipedia.org/wiki/Single-page_application)) for faster transitions that make the website feel more like a native app. 
+A music player app requires more elemente for the user experience ([UX](https://en.wikipedia.org/wiki/User_experience)) because they interacts much more dynamically rewriting the current web page with new data from the web server by searching music and different states like play and stop, instead of the more traditional method of loading entire new pages (or static web page) after any user's requires (~ user's clicks). The important key here was then the search engine optimization ([SEO](https://moz.com/learn/seo/what-is-seo)) to imporve the quality and quantity of website traffic and the choice a modern type of aplication for this project, such as the Simple-Page-Aplication ([SAP](https://en.wikipedia.org/wiki/Single-page_application)) for faster transitions that make the website feel more like a native app. 
 
 Therefore, the music app as a dynamic websites wourld more efficent by Server-side programming with frameworks that allow create dynamic websites and deliver customized information in response to HTTP requests ([Mozilla Devs](https://developer.mozilla.org/en-US/docs/Learn/Server-side)).
 
@@ -51,10 +51,13 @@ Nevertheless, they are frameworks for frontend, good for management the user int
 
 
 For the backend framework the tendecy was to opt for one based on programing language I had experience before such as python, javascript and R. The points I have considered for the framework's choice was then based on mainly the programe language:
-- Python with [Django](https://www.djangoproject.com/) framework is the most interseting one due to my experience before, the rich and powerfull libraries for web developement and a great oportunity to use a second language in this project.
+- Python with [Django](https://www.djangoproject.com/) framework was the most interseting one to me due to my former experience, to the rich and powerfull libraries for web developement and to a great oportunity to use a second language in this project without great effort. About libraries and tools for example, [Joy](https://pythonistaplanet.com/advantages-of-django/) has pointed out 11 advantages such tools for security login, ORM and SEO and a interesting MVT:
+
+<img src='https://cdn-0.pythonistaplanet.com/wp-content/uploads/2020/02/Django_MVT-1-683x1024.jpg?ezimgfmt=ng:webp/ngcb19' alt="Django's Model View Template (MVT) Architecture">
+
 - Javascript with [Node.js](https://nodejs.org/en) framework could be an interesting option because I would use this language on the frontend anyway, but it is still the language I have less experience.
-- [R](https://cran.r-project.org/) is very limited language for web programetion with poor libraris and it is not a good option.
-- [PHP](https://www.php.net/) was also discarted due to lack of experience. The visual similarity of sintax with javascript was not so much atractive to choose a third programing language in this beginner's project. It was also important, as a frist app, to keep simplicity and to concentrate on other parts of web development for more effective learning process.
+- [R](https://cran.r-project.org/) is very limited language for web programetion with poor libraries and it would'n be a good option for this project.
+- [PHP](https://www.php.net/) was also discarted due to lack of experience. The visual similarity of sintax with javascript was not so much atractive to choose a third programing language in this beginner's project. It was also important, as a frist app, to keep simplicity and to concentrate on other parts of web development for more effective learning process and 3 programing languages increase the complexty.
 
 Some tutorials was also considered to check the frameworks' aprouch with music apps and dynamics website for final decision:
  - Node.js at [Geeks for Geeks](https://www.geeksforgeeks.org/music-player-app-with-next-js-and-api/)
@@ -63,9 +66,9 @@ Some tutorials was also considered to check the frameworks' aprouch with music a
  - Django at [bytexplain](https://bytexplain.com/how-to-build-a-music-sharing-app-using-django/)
 - dynamic web-site with Django by [MMD](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Deployment)
 
-The final decision was Django framework. With this decision I could start the next steps such as architecture, infrstructure and hands on the 12 factors in practice.
+The final decision was Django framework. With this decision I could jump to the next step such as architecture, infrastructure and hands on the 12 factors in practice.
 
-Some choice's consequence up to here is the complexity of file and scripts organization. They are going to be much more complex with both [front and backend's framework](https://www.geeksforgeeks.org/music-player-using-django/)  than only frontend ones ([Peseski](https://dev.to/psamim/micro-frontends-after-one-year-with-single-spa-1eoo)) and it was important step to understand were the project could reach on the end.
+Some choice's consequence up to here is the complexity of file and scripts organization. They are going to be much more complex with both [front and backend's framework](https://www.geeksforgeeks.org/music-player-using-django/) than one frontend framework only (*e.g.*, [Peseski](https://dev.to/psamim/micro-frontends-after-one-year-with-single-spa-1eoo)) and it was important step to understand were the project could reach on the end.
 
 ```
 Example of file and scripts organization with both front and backend's framework:
@@ -110,11 +113,11 @@ Some Heroku's alternativ considered with more details for checking were:
 - [back4app](https://www.back4app.com/)
 - [Vercel](https://vercel.com/)
 - Kubernets and Dockercontainers
-- Cloud´s services as Google, AWS and Azure.
+- Complet cloud services such as Google App Engine, AWS and Azure.
 
-The final decision was the Back4app as PaaS to host all application because it works very similar to Heroku linked with GitHub and has [documentation](https://blog.back4app.com/how-to-deploy-a-django-application/) to deply Django's app. Back4app called this plataforme linked with GitHub and Dockercontainer as Container as a Service (CaaS). 
+The final decision was the Back4app as PaaS to host all application because it works very similar to Heroku linked with GitHub and has [documentation](https://blog.back4app.com/how-to-deploy-a-django-application/) to deploy Django's app. Back4app called its plataforme linked with GitHub and Dockercontainer as Container as a Service (CaaS). 
 
-Vercel would work better for static webpage and as far as I could undestand would not fit well for this project as a dynamic one. The other options such as Cloudservices demands more advanced experience, costs and dependent on their own tecnology sistem (e.g., Google).
+Vercel would work better for static webpage and as far as I could undestand it would not fit well for this project of music player as a dynamic one. The other alternatives of Cloudservices demands more advanced experience, costs and all element of infrastructure would be dependent on their tecnology sistem (*e.g.*, Google), *i.e.* the project would be restric to one service lossing libertiy.
 
 
 # Staring the project
@@ -211,3 +214,8 @@ mymusicplayer/
 ```
 
 
+# Conclusion Remarks
+
+.gitingore and .dockerignore
+SEO
+sequency django, git... 
