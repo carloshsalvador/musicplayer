@@ -3,17 +3,25 @@ correct language text
 security variáveis de ambiente!.. só .env + .gitingore não adianta porque docker built copia .env, portanto tem que ter tb .dockerignore ...OPÇÃO 2: back4app tb tem opção de fornecer as variávies de ambeinte na hora de criar o deploy do app, como se estivesse configurando as variáveis de ambiente direto no servidor. Talvez seja ainda mais seguro pelo o que entendi, mas preferi não usar essa opção por enquanto, até mesmo para testar a segurança - Professor, tenta acessar as vars?!... desfio para Hacker?
 
 
+css with vue... more than 15 options
+https://medium.com/@emperorbrains/10-vue-js-ui-libraries-trends-in-2024-4ae6a9f653f5
+https://wpshout.com/vue-ui-component-libraries/#gref
+... see script professor.. Tailwind as responsive web
+... Vue.js has SFC scope:
+https://vuejs.org/api/sfc-css-features.html
 
+.. começar pelo Tailwind e depois fazer o Vue!!
+https://tailgrids.com/blog/tailwind-css-integration-with-frameworks-and-tools
 
 
 
 # MUSIC PLAYER APP
 
-It is a project of Web Application for the DHBW/WDS's WebDesign Course (semester 2.2024) carried out by [Prof. Jürgen Toth](https://github.com/juergen1976).
+Music player app is a project of Web Application for the DHBW/WDS's WebDesign Course (semester 2.2024) carried out by [Prof. Jürgen Toth](https://github.com/juergen1976). It is a course for students who are facing this topic for the first time. It is my first web app for example.
 
-This web application was developed using [Django](https://www.djangoproject.com/) framework as backend and [Vue.js](https://vuejs.org/) framework as frontend, and the music come from [Deezer](https://www.deezer.com/en/).
+As an overview, this web application was developed using basically 2 frameworks, [Django](https://www.djangoproject.com/) as backend and [Vue.js](https://vuejs.org/) as frontend, and the music come from [Deezer](https://www.deezer.com/en/).
 
-This project has tried to follow as much as possible the Adams Wiggins's [12 factors](https://12factor.net/), such as easy code's sharing and security. Some guidlines of this methodology make no much sense for this project, such those for team work because it is a individual project or escalability, but they were implemented as best practice and learning process.
+This project has tried to follow as much as possible the Adams Wiggins's [12 factors](https://12factor.net/), such as easy code's sharing, backing service and security. Some guidlines of this methodology make no much sense for this project, such as escalability and demands for team work because it is a individual project, but they were implemented as best practice and learning process.
 
 ---
 ---
@@ -63,8 +71,10 @@ Some tutorials was also considered to check the frameworks' aprouch with music a
  - Node.js at [Geeks for Geeks](https://www.geeksforgeeks.org/music-player-app-with-next-js-and-api/)
  - Django at [Geeks for Geeks](https://www.geeksforgeeks.org/music-player-using-django/)
  - Django at [Kolavole at DEV](https://dev.to/koladev/building-a-music-streaming-service-with-python-golang-and-react-from-system-design-to-coding-part-1-1c79)
- - Django at [bytexplain](https://bytexplain.com/how-to-build-a-music-sharing-app-using-django/)
+ - Django at [W3Schools](https://www.w3schools.com/django/)
+ - Django at [Bytexplain](https://bytexplain.com/how-to-build-a-music-sharing-app-using-django/)
 - dynamic web-site with Django by [MMD](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Deployment)
+- professional overview by Altynpara & Khodukina from [Cleaverroad](https://www.cleveroad.com/blog/how-to-create-a-music-streaming-app/)
 
 The final decision was Django framework. With this decision I could jump to the next step such as architecture, infrastructure and hands on the 12 factors in practice.
 
@@ -111,17 +121,47 @@ Unfortunatly Heroku has canceled its free service since 2022 ([Koyeb](https://ww
 - [Medium posts](https://medium.com/dictcp/top-6-heroku-alternative-drop-in-replacement-in-2022-ff456fe050e4): updated (<10 months). 6 Alternatives.
 
 Some Heroku's alternativ considered with more details for checking were:
-- [back4app](https://www.back4app.com/)
+- [Back4app](https://www.back4app.com/)
 - [Vercel](https://vercel.com/)
 - Kubernets and Dockercontainers
 - Complet cloud services such as Google App Engine, AWS and Azure.
 
-The final decision was the Back4app as PaaS to host all application because it works very similar to Heroku linked with GitHub and has [documentation](https://blog.back4app.com/how-to-deploy-a-django-application/) to deploy Django's app. Back4app called its plataforme linked with GitHub and Dockercontainer as Container as a Service (CaaS). 
+The final decision was the Back4app as PaaS to host all application because it works very similar to Heroku linked with GitHub and has [documentation](https://blog.back4app.com/how-to-deploy-a-django-application/) to deploy Django's app. **Container as a Service (CaaS)** is the Back4app's plataforme linked with GitHub and Dockercontainer. 
 
 Vercel would work better for static webpage and as far as I could undestand it would not fit well for this project of music player as a dynamic one. The other alternatives of Cloudservices demands more advanced experience, costs and all element of infrastructure would be dependent on their tecnology sistem (*e.g.*, Google), *i.e.* the project would be restric to one service lossing libertiy.
 
 
 # Staring the project
+
+## General steps
+
+1. **Backend with Django**:
+   - **Function**: Handles business logic and APIs.
+   - **Framework**: Django REST Framework for creating RESTful APIs.
+
+2. **Version Control with GitHub**:
+   - **Function**: Manages version control and collaboration.
+   - **Configuration**: GitHub repository for versioning code.
+
+3. **Creating Docker Image for Django**:
+   - **Function**: Creates a Docker container for the Django server.
+   - **Configuration**: Dockerfile to define the Django image.
+
+4. **Container Orchestration with Docker Compose**:
+   - **Function**: Orchestrates multiple Docker containers.
+   - **Configuration**: `docker-compose.yml` file to define and manage services.
+
+5. **Hosting on Back4App**:
+   - **Function**: Manages backend and database services.
+   - **Configuration**: Deploy backend and database services on Back4App.
+
+6. **Frontend with Tailwind CSS**:
+   - **Function**: Manages the user interface.
+   - **Configuration**: Import and configure Tailwind CSS in the project.
+
+7. **Frontend Development with Vue.js**:
+   - **Function**: Develops the user interface.
+   - **Configuration**: Create Vue.js components and use Tailwind CSS classes.
 
 ## Architecture and Infrasctructure
 
@@ -134,6 +174,7 @@ Vercel would work better for static webpage and as far as I could undestand it w
    - **Function**: Manages the user interface.
    - **Container**: Docker container for the Vue.js development server.
    - **Design**: Implement responsive web design principles.
+   - **CSS Framework**: Use Tailwind CSS for styling.
 
 3. **Database (PostgreSQL)**:
    - **Function**: Stores application data.
@@ -155,25 +196,30 @@ Vercel would work better for static webpage and as far as I could undestand it w
    - **Configuration**: `docker-compose.yml` file to define and manage services.
 
 8. **Hosting (Back4App)**:
-   - **Function**: Manages backend services and database.
+   - **Function**: Manages backend and database services.
    - **Configuration**: Deploy backend and database services on Back4App.
 
 ### Additional Notes
 
 - **Django REST Framework**: Necessary for creating RESTful APIs in Django.
-- **Environment Variables**:
-    - Store sensitive information like API keys and database credentials securely.
-    - .dockerignore and .env: 
+- **Environment Variables**: Store sensitive information like API keys and database credentials securely.
+- **CSS Framework**: Use Tailwind CSS for consistent and responsive design.
+
+### Important Files
+
+- **.dockerignore**: Defines files and directories that Docker should ignore.
+- **.env**: Stores environment variables.
+
 
 security variáveis de ambiente!.. só .env + .gitingore não adianta porque docker built copia .env, portanto tem que ter tb .dockerignore ...OPÇÃO 2: back4app tb tem opção de fornecer as variávies de ambeinte na hora de criar o deploy do app, como se estivesse configurando as variáveis de ambiente direto no servidor. Talvez seja ainda mais seguro pelo o que entendi, mas preferi não usar essa opção por enquanto, até mesmo para testar a segurança - Professor, tenta acessar as vars?!... desfio para Hacker?
 
 
 # xxxx
 
-For back4app there is a [tutorial](https://blog.back4app.com/how-to-deploy-a-django-application/) for Django's deployment. 
+For Back4app there is a [tutorial](https://blog.back4app.com/how-to-deploy-a-django-application/) for Django's deployment. 
 
 The general spets are:
-1. create a account on back4app.
+1. create a account on Back4app.
 2. install Django (with pip) and start Django's project (with ``` django-admin startproject mysite ```). Observation: it is similar to the Djongo's [tutorial](https://docs.djangoproject.com/en/5.1/intro/tutorial01/). Here the project file scturcture are create, special the file *manage.py*. However, they have difference on next step.
 4 - migration 
 
@@ -217,6 +263,8 @@ mymusicplayer/
 
 # Conclusion Remarks
 
+visualize and plan the file scture before starting the conde was important to understand the entire project.
+
 .gitingore and .dockerignore
 SEO
-sequency django, git... 
+sequency django, git... not git frist!... due to file structure with django e and containers image.
