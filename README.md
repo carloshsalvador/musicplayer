@@ -53,7 +53,7 @@ Nevertheless, they are frameworks for frontend, good for management the user int
 For the backend framework the tendecy was to opt for one based on programing language I had experience before such as python, javascript and R. The points I have considered for the framework's choice was then based on mainly the programe language:
 - Python with [Django](https://www.djangoproject.com/) framework was the most interseting one to me due to my former experience, to the rich and powerfull libraries for web developement and to a great oportunity to use a second language in this project without great effort. About libraries and tools for example, [Joy](https://pythonistaplanet.com/advantages-of-django/) has pointed out 11 advantages such tools for security login, ORM and SEO and a interesting MVT:
 
-<img src='https://cdn-0.pythonistaplanet.com/wp-content/uploads/2020/02/Django_MVT-1-683x1024.jpg?ezimgfmt=ng:webp/ngcb19' alt="Django's Model View Template (MVT) Architecture">
+<img src='https://cdn-0.pythonistaplanet.com/wp-content/uploads/2020/02/Django_MVT-1-683x1024.jpg?ezimgfmt=ng:webp/ngcb19' alt="Django's Model View Template (MVT) Architecture" title="Django's Model View Template (MVT) Architecture">
 
 - Javascript with [Node.js](https://nodejs.org/en) framework could be an interesting option because I would use this language on the frontend anyway, but it is still the language I have less experience.
 - [R](https://cran.r-project.org/) is very limited language for web programetion with poor libraries and it would'n be a good option for this project.
