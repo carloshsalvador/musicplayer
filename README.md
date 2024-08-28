@@ -93,7 +93,7 @@ Example of file and scripts organization with both frontend framework only:
 ```
 
 <figure>
-    <img src='https://media.geeksforgeeks.org/wp-content/uploads/20240201120202/file.png' alt='Example of file and scripts organization'>
+    <img src='https://media.geeksforgeeks.org/wp-content/uploads/20240201120202/file.png' alt='Example of file and scripts organization' title='Example of file and scripts organization'>
     <figcaption>Example of file and scripts organization with both front and backend's framework<a href='https://www.geeksforgeeks.org/music-player-using-django/'> [Font]</a></figcaption>
 </figure>
 
