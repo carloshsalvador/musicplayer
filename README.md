@@ -71,7 +71,8 @@ The final decision was Django framework. With this decision I could jump to the 
 Some choice's consequence up to here is the complexity of file and scripts organization. They are going to be much more complex with both [front and backend's framework](https://www.geeksforgeeks.org/music-player-using-django/) than one frontend framework only (*e.g.*, [Peseski](https://dev.to/psamim/micro-frontends-after-one-year-with-single-spa-1eoo)) and it was important step to understand were the project could reach on the end.
 
 ```
-Example of file and scripts organization with both front and backend's framework:
+Example of file and scripts organization with both frontend framework only:
+(Font:see text)
 
 ├── apps
 │   ├── root
@@ -93,7 +94,7 @@ Example of file and scripts organization with both front and backend's framework
 
 <figure>
     <img src='https://media.geeksforgeeks.org/wp-content/uploads/20240201120202/file.png' alt='Example of file and scripts organization'>
-    <figcaption>Example of file and scripts organization with both front and backend's framework<a herf='https://www.geeksforgeeks.org/music-player-using-django/'> [Font]</a></figcaption>
+    <figcaption>Example of file and scripts organization with both front and backend's framework<a href='https://www.geeksforgeeks.org/music-player-using-django/'> [Font]</a></figcaption>
 </figure>
 
 ## 12 Factors in Practice and the infrascructure from PaaS to CaaS
