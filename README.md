@@ -1,5 +1,7 @@
 correct language text
 
+.env_example
+
 security variáveis de ambiente!.. só .env + .gitingore não adianta porque docker built copia .env, portanto tem que ter tb .dockerignore ...OPÇÃO 2: back4app tb tem opção de fornecer as variávies de ambeinte na hora de criar o deploy do app, como se estivesse configurando as variáveis de ambiente direto no servidor. Talvez seja ainda mais seguro pelo o que entendi, mas preferi não usar essa opção por enquanto, até mesmo para testar a segurança - Professor, tenta acessar as vars?!... desfio para Hacker?
 
 
@@ -135,33 +137,7 @@ Vercel would work better for static webpage and as far as I could undestand it w
 
 ## General steps
 
-1. **Backend with Django**:
-   - **Function**: Handles business logic and APIs.
-   - **Framework**: Django REST Framework for creating RESTful APIs.
 
-2. **Version Control with GitHub**:
-   - **Function**: Manages version control and collaboration.
-   - **Configuration**: GitHub repository for versioning code.
-
-3. **Creating Docker Image for Django**:
-   - **Function**: Creates a Docker container for the Django server.
-   - **Configuration**: Dockerfile to define the Django image.
-
-4. **Container Orchestration with Docker Compose**:
-   - **Function**: Orchestrates multiple Docker containers.
-   - **Configuration**: `docker-compose.yml` file to define and manage services.
-
-5. **Hosting on Back4App**:
-   - **Function**: Manages backend and database services.
-   - **Configuration**: Deploy backend and database services on Back4App.
-
-6. **Frontend with Tailwind CSS**:
-   - **Function**: Manages the user interface.
-   - **Configuration**: Import and configure Tailwind CSS in the project.
-
-7. **Frontend Development with Vue.js**:
-   - **Function**: Develops the user interface.
-   - **Configuration**: Create Vue.js components and use Tailwind CSS classes.
 
 ## Architecture and Infrasctructure
 
@@ -169,6 +145,14 @@ Vercel would work better for static webpage and as far as I could undestand it w
    - **Function**: Handles business logic and APIs.
    - **Container**: Docker container for the Django server.
    - **Framework**: Django REST Framework for creating RESTful APIs.
+
+Here is very important strategic step! 
+Here come the decision for 1 or more Django's app.
+For a music player 2 separate apps are very interesting for a clear separation of concerns: 
+1. the api app handles the backend logic and provides endpoints for API interactions, making it easier to manage data and ensure modularity.
+2. the music_player_app focuses on the frontend user interface and user-specific functionalities like registration, user profile and song management. 
+
+This approach enhances scalability, maintainability, and flexibility, allowing different teams to work on distinct parts of the project independently and facilitating easier future expansion and testing; *i.e.* this strategic per se fits well to the 12 Factors.
 
 2. **Frontend (Vue.js)**:
    - **Function**: Manages the user interface.
@@ -263,8 +247,30 @@ mymusicplayer/
 
 # Conclusion Remarks
 
+
+## tips
 visualize and plan the file scture before starting the conde was important to understand the entire project.
 
 .gitingore and .dockerignore
 SEO
 sequency django, git... not git frist!... due to file structure with django e and containers image.
+
+## 2 Django's App and 12 Factors
+
+The strategy of using two apps, api and music_player_app, aligns well with several of the 12 Factors by Adam Wiggins for building scalable and maintainable applications:
+
+Codebase: By having two separate apps in the same Django project, we maintain a single codebase while separating logical concerns, ensuring a clear tracking of different functionalities.
+
+Dependencies: Each app can clearly define and manage its own dependencies, making it easier to maintain and update required libraries.
+
+Config: With separate apps, environment-specific configurations are easier to manage, adhering to the principle of storing configuration in the environment.
+
+Backing Services: This structure allows easier integration and configuration of supporting services like databases, tailored to each app's specific needs.
+
+Processes: Each app can run as independent processes, facilitating better resource management and scaling.
+
+Port Binding: Each app can be configured to listen on specific ports, which is beneficial for separating concerns, especially for the api service.
+
+Dev/Prod Parity: By modularizing the project, each app can be developed, tested, and deployed independently, ensuring consistency across development and production environments.
+
+This modular approach ensures the project is built in line with modern, scalable software development principles, as outlined in the 12 Factors.
