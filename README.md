@@ -142,17 +142,20 @@ Vercel would work better for static webpage and as far as I could undestand it w
 ## Architecture and Infrasctructure
 
 1. **Backend (Django)**:
-   - **Function**: Handles business logic and APIs.
-   - **Container**: Docker container for the Django server.
-   - **Framework**: Django REST Framework for creating RESTful APIs.
 
-Here is very important strategic step! 
-Here come the decision for 1 or more Django's app.
-For a music player 2 separate apps are very interesting for a clear separation of concerns: 
-1. the api app handles the backend logic and provides endpoints for API interactions, making it easier to manage data and ensure modularity.
-2. the music_player_app focuses on the frontend user interface and user-specific functionalities like registration, user profile and song management. 
+Here starts the longest backbone of this project, such additional architeture and technologies, such RESTful API.
+Here comes the decision for 1 or more Django's app and it has a lot of implication to the musci player's implementation.
+For a project like this, 2 separate apps are very interesting for a clear separation of concerns: 
+1. ***API***: the **api** app handles the backend logic and provides endpoints for API interactions, making it easier to manage data and ensure modularity.
+2. ***Player***: the **music_player_app** focuses on the frontend user interface and user-specific functionalities like registration, user profile and song management. 
 
 This approach enhances scalability, maintainability, and flexibility, allowing different teams to work on distinct parts of the project independently and facilitating easier future expansion and testing; *i.e.* this strategic per se fits well to the 12 Factors.
+
+An addional importante step here is the implemetation of RESTful API arquiteture, it belongs to the backend part. In general, Django framework implement it automatically using Django REST Framework (DRF) by starting the project and adding apps, but sometimes it needs an extra implementation. This is achieved by defining Django models for the data structures, such as:
+- Song, and creating corresponding serializers in the **api/serializers.py** file to convert these models to JSON format
+- Views in **api/views.py** use DRF's generic views like ```ListCreateAPIView``` and ```RetrieveUpdateDestroyAPIView``` to handle RESTful requests, enabling CRUD operations. 
+These views are then mapped to URLs in the project's **urls.py** file, providing a RESTful API that the frontend can interact with for data fetching and manipulation.
+In such scripts need to import the modules from the library ```djangorestframework``` (with Namespace ```rest_framework``` for import function in scripts' line):
 
 2. **Frontend (Vue.js)**:
    - **Function**: Manages the user interface.
