@@ -14,24 +14,35 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+# __file__ works only when settings.py file is called from the shell!
+# it means, the variable BASE_DIR will be not set by runing the code here, but by running the code in the shell!
+# for test only, use the python terminal to set the path manually, e.g.: 
+# __file__ = 'musicplayer\django01\django01\settings.py'
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+# **** SECURITY WARNING ****
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
+# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
+load_dotenv(dotenv_path=BASE_DIR / '.env') # .env on .gitignore and .dockerignore!
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')         # secrte and strong key!
+DEBUG = os.getenv('DEBUG', 'False') == 'True'       # don't run with debug turned on in production!
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '')      # website domain name or IP address
 
-ALLOWED_HOSTS = []
-
+# SECURITY 'security.W...' (https://docs.djangoproject.com/en/5.1/ref/settings/#security)
+# Securitty Middleware [see MIDDLEWARE below] 
+# HTTP Strict Transport Security:
+SECURE_HSTS_SECONDS = 31536000          # SecurityMiddleware will set this header on all HTTPS responses if non-zero integer value here (e.g. 31536000) [60*60*24*365 # 31536000 = 1 year in seconds]
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True   # SecurityMiddleware will add the includeSubDomains directive to the Strict-Transport-Security header if True [= assuming all subdomains are served exclusively using HTTPS], otherwise the site may still be vulnerable via an insecure connection to a subdomain.
+SECURE_HSTS_PRELOAD = True              # SecurityMiddleware will add the preload directive to the Strict-Transport-Security header if True [= the site is included in the HSTS preload list], which is a list of sites that are hardcoded into browsers as HTTPS only.
+# SSL Redirect:
+SECURE_SSL_REDIRECT = True              # SecurityMiddleware will permanently redirect all HTTP connections to HTTPS. https://docs.djangoproject.com/en/5.1/ref/middleware/#ssl-redirect
+# Cross Site Request Forgery Protection: 
+SESSION_COOKIE_SECURE = True            # SecurityMiddleware will set the session cookie with the Secure flag. With this flag set, the browser will prevent the cookie from being sent over an unencrypted HTTP connection.
+CSRF_COOKIE_SECURE = True               # SecurityMiddleware will set the CSRF cookie with the Secure flag. With this flag set, the browser will prevent the cookie from being sent over an unencrypted HTTP connection.
 
 # Application definition
 
@@ -47,6 +58,8 @@ INSTALLED_APPS = [
     "rest_framework"
 ]
 
+# MIDDLEWAR ~ SecurityMiddleware (SEE ABOVE)
+# https://docs.djangoproject.com/en/5.1/ref/middleware/#module-django.middleware.security
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
