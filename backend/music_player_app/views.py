@@ -27,7 +27,7 @@ def user_login(request):
 			return redirect('home')
 	else:
 		form = LoginForm()
-	return render(request, 'music_player_app/login.html', {'form': form})
+	return render(request, 'registration/login.html', {'form': form})
 
 @login_required
 def index(request):

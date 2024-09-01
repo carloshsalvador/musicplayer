@@ -48,8 +48,19 @@
 	<ul id="playlist" class="list-group"></ul>
 	<button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#addSongModal"
 			onclick="AddSong()">Add Song</button>
+	
+	<!-- Logout Button here!!! but two version for memory-->
+	<!-- Logout Button 1: with method GET [JavaScript Logout()] = not useful in Django, because Django use method POST with formulary. It is implmented bellow-->
+	<!-- 
 	<button type="button" class="btnlogout btn btn-danger mt-3" data-toggle="modal"
 			data-target="#addSongModal" onclick="Logout()">Logout</button>
+	-->
+	<!-- Logout Button 2: with method POST [formulary] = useful in Django, because Django use method POST with formulary. -->
+	<!-- {% csrf_token %} implements a CSRF token, which is required to protect against CSRF (Cross-Site Request Forgery) attacks. Django default.-->
+	<form method="post" action="{% url 'logout' %}" style="display:inline;">
+		{% csrf_token %}
+		<button type="submit" class="btn btn-danger mt-3">Logout</button>
+	</form>	
 	</div>
 	<script>
 	

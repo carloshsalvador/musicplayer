@@ -71,12 +71,13 @@ For the backend framework the tendecy was to opt for one based on programing lan
 
 Some tutorials was also considered to check the frameworks' aprouch with music apps and dynamics website for final decision:
  - Node.js at [Geeks for Geeks](https://www.geeksforgeeks.org/music-player-app-with-next-js-and-api/)
+ - Vue.js at [Geeks for Geeks](https://www.geeksforgeeks.org/build-a-music-app-using-vuejs/?ref=oin_asr7)
  - Django at [Geeks for Geeks](https://www.geeksforgeeks.org/music-player-using-django/)
  - Django at [Kolavole at DEV](https://dev.to/koladev/building-a-music-streaming-service-with-python-golang-and-react-from-system-design-to-coding-part-1-1c79)
  - Django at [W3Schools](https://www.w3schools.com/django/)
  - Django at [Bytexplain](https://bytexplain.com/how-to-build-a-music-sharing-app-using-django/)
 - dynamic web-site with Django by [MMD](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Deployment)
-- professional overview by Altynpara & Khodukina from [Cleaverroad](https://www.cleveroad.com/blog/how-to-create-a-music-streaming-app/)
+- a professional overview by Altynpara & Khodukina from [Cleaverroad](https://www.cleveroad.com/blog/how-to-create-a-music-streaming-app/)
 
 The final decision was Django framework. With this decision I could jump to the next step such as architecture, infrastructure and hands on the 12 factors in practice.
 
@@ -137,25 +138,68 @@ Vercel would work better for static webpage and as far as I could undestand it w
 
 ## General steps
 
-
+xxxxx
 
 ## Architecture and Infrasctructure
 
 1. **Backend (Django)**:
 
-Here starts the longest backbone of this project, such additional architeture and technologies, such RESTful API.
-Here comes the decision for 1 or more Django's app and it has a lot of implication to the musci player's implementation.
-For a project like this, 2 separate apps are very interesting for a clear separation of concerns: 
-1. ***API***: the **api** app handles the backend logic and provides endpoints for API interactions, making it easier to manage data and ensure modularity.
-2. ***Player***: the **music_player_app** focuses on the frontend user interface and user-specific functionalities like registration, user profile and song management. 
+Here starts the longest backbone of this project, such additional architeture and security, such RESTful API.
 
-This approach enhances scalability, maintainability, and flexibility, allowing different teams to work on distinct parts of the project independently and facilitating easier future expansion and testing; *i.e.* this strategic per se fits well to the 12 Factors.
+   1. 1. **Project & Apps**
 
-An addional importante step here is the implemetation of RESTful API arquiteture, it belongs to the backend part. In general, Django framework implement it automatically using Django REST Framework (DRF) by starting the project and adding apps, but sometimes it needs an extra implementation. This is achieved by defining Django models for the data structures, such as:
-- Song, and creating corresponding serializers in the **api/serializers.py** file to convert these models to JSON format
-- Views in **api/views.py** use DRF's generic views like ```ListCreateAPIView``` and ```RetrieveUpdateDestroyAPIView``` to handle RESTful requests, enabling CRUD operations. 
-These views are then mapped to URLs in the project's **urls.py** file, providing a RESTful API that the frontend can interact with for data fetching and manipulation.
-In such scripts need to import the modules from the library ```djangorestframework``` (with Namespace ```rest_framework``` for import function in scripts' line):
+      The `startproject` is the frist obrigatory step followed by `startapp`. However, it is possible to set one or more apps for each project. For this decision it's important to consider the implications for the overall project structure.
+      
+      Each app handles its own classes, but in the Django framework, these are referred to as Models rather than standard Python classes. This is because each attribute of a model corresponds to a database field, and Django's ORM automatically manages the database schema and interactions when instances of the model are created. This system emphasizes the ORM's role in handling database operations, which is a key reason why Django uses the term "Model" to describe these classes. For example, the atributes of each classes/model can be instanciated with methods already implemented such as `models.AutoField()`, `models.CharField()` and `models.FileField()`.
+
+      For a project like a music player, 2 separate apps are very interesting due to the clear different concerns:
+
+         - ***API***: the **api** app handles the backend logic and provides endpoints for API interactions, making it easier to manage data and ensure modularity. Here the **Song** class is set with the attributes like id, title, category, artist, audio_file, and audio_image. 
+
+         - ***Player***: the **music_player_app** focuses on the frontend user interface and user-specific functionalities such the user's registration on the app. Here the **CustomUser** class is set, but diffeentely of Song's class, it is already done by Django for general use and assocaited with other Django's funcionalties of security. **CustomUser** extends the **AbstractUser** class to customize user authentication and management. It inherits all the standard user attributes like username, email, and password, while also allowing for specific modifications such as custom group and permission handling. This approach leverages Django's built-in authentication system while providing flexibility for further customization.
+
+      The approach of 2 apps enhances scalability, maintainability, and flexibility, allowing different teams to work on distinct parts of the project independently and making easier future expansion and testing; *i.e.* this aproach only fits to the most 12 Factors of Adam Wiggins.
+
+   1. 2. **Data Fetching**
+
+      An addional importante step here is the implemetation of RESTfull API arquiteture, it belongs also to the backend part.
+      
+      In general, Django's framework implement it automatically using Django REST Framework (DRF) by starting the project and adding apps, but sometimes it needs an extra implementation beyond the **models.py* described above. This is achieved by defining Django's models for the data structures, such as:
+
+         - Song: creating corresponding serializers in the **api/serializers.py** file to convert these models to JSON format.
+
+         - Views: **api/views.py** use DRF's generic views like ```ListCreateAPIView``` and ```RetrieveUpdateDestroyAPIView``` to handle RESTful requests, enabling CRUD operations.
+
+         - URLs: these views are mapped to URLs in the project's **urls.py** file, providing a RESTful API that the frontend can interact with for data fetching and manipulation.
+
+      In such scripts .py (serializers, views, urls) need to import the modules from the library ```djangorestframework``` (with Namespace ```rest_framework``` for import function in scripts' line):
+         - `pip install djangorestframework` # CLI
+         - `import rest_framework`           # on Python terminal or script
+
+   1. 3. **Security**
+
+      Security is another important topic implented on the backend step.
+
+      Django can implement some security functions to protect the data bank, users and the web site itself.
+
+      However, it require to set more specific environmental variables on the [**backend/settings.py**](https://docs.djangoproject.com/en/5.1/ref/settings/#security) as well on other no-Django's file (see bellow).
+      
+      The basic Django's security settings for this project was explainded direct on the file **backend/settings.py**. Here just some example:
+
+         - `SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')` 
+
+         - `SECURE_HSTS_SECONDS = 31536000`          # SecurityMiddleware will set this header on all HTTPS responses if non-zero integer value here (e.g. 31536000) [60*60*24*365 # 31536000 = 1 year in seconds]
+
+         - `SECURE_HSTS_INCLUDE_SUBDOMAINS = True`   # SecurityMiddleware will add the includeSubDomains directive to the Strict-Transport-Security header if True [= assuming all subdomains are served exclusively using HTTPS], otherwise the site may still be vulnerable via an insecure connection to a subdomain.
+
+      The extra proceeds for the project' security is to set at least 2 addional files that doesn't come with Django ([Thompson, 2023](https://www.makeuseof.com/django-secret-key-generate-new/)):
+
+         - **.env**: stores all environment variables, *i.e.* they are not saved direct on the scripts. The env.var. are loaded when needed by runing the scripts with functions such as `os.getenv()`. [see the example above for **backend/settings.py**]
+         
+         - **.gitingore**: on the root directory under Git control. It files and directories that Git should ignore. For security reasons, .env must be set here.
+         
+         - **.dockerignore**: on the root directory under Docker control for Dockercompose or similar (e.g., Heroku's Procfile). It defines files and directories that Docker should ignore. For security reasons, .env must be set here. This file is normally not considered on recomendations (*e.g.*, [Thompson, 2023](https://www.makeuseof.com/django-secret-key-generate-new/)), but the logic is the same for .gitignore.
+
 
 2. **Frontend (Vue.js)**:
    - **Function**: Manages the user interface.
@@ -194,11 +238,7 @@ In such scripts need to import the modules from the library ```djangorestframewo
 
 ### Important Files
 
-- **.dockerignore**: Defines files and directories that Docker should ignore.
-- **.env**: Stores environment variables.
 
-
-security variáveis de ambiente!.. só .env + .gitingore não adianta porque docker built copia .env, portanto tem que ter tb .dockerignore ...OPÇÃO 2: back4app tb tem opção de fornecer as variávies de ambeinte na hora de criar o deploy do app, como se estivesse configurando as variáveis de ambiente direto no servidor. Talvez seja ainda mais seguro pelo o que entendi, mas preferi não usar essa opção por enquanto, até mesmo para testar a segurança - Professor, tenta acessar as vars?!... desfio para Hacker?
 
 
 # xxxx
@@ -257,6 +297,13 @@ visualize and plan the file scture before starting the conde was important to un
 .gitingore and .dockerignore
 SEO
 sequency django, git... not git frist!... due to file structure with django e and containers image.
+
+If the project use the tools such as git and containers, the enviranmental variables can be easily exposed on the internet. The .env makes only sense if it is set on igoneres' files of Git as well as Docker (or similar such as Heroku). In such way the environmental variables are not on the script shared by creating image for containers as well as by controling version, considering that it is remote on plattaforms such as GitHub and GitLab. The .dockerignore is normally not considered on recomendations associate to .env as security proceeds (*e.g.*, [Thompson, 2023](https://www.makeuseof.com/django-secret-key-generate-new/)), but the logic is the same for .gitignore.
+
+By the other hand, there is alternativ to ingore files such as setting the environmental variable direct on the server or controling then with instruction of Docker's CLI (e.g., E[NV](https://docs.docker.com/reference/dockerfile/#env)). However, .dockerignore file may be a more simple way to exclude files and directories from the build context ([Docker's doc](https://docs.docker.com/reference/dockerfile/#dockerignore-file)).
+
+The backend only was a very big chanllange and took longtime to set. Many basic infornation is very poor documentation (e.g., [secret key](https://code.djangoproject.com/ticket/32451)) and took long to find solution. 
+
 
 ## 2 Django's App and 12 Factors
 

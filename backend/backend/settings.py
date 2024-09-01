@@ -14,37 +14,53 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-
+# GENRAL PATHS:
+# Enviroment variables are key important to keep the project secure and flexible.
+# The most sensible key are saved in .env file outside the Djang's directory, but they are loaded here when Django needs them
+# Tthe other Djangos's variables are set here. 
+# Therefore, this sctructure need two paths: one for the Django's project (BASE_DIR) and another for the project at all (BASE_DIR_UMBRELLA).
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # __file__ works only when settings.py file is called from the shell!
 # it means, the variable BASE_DIR will be not set by runing the code here, but by running the code in the shell!
 # for test only, use the python terminal to set the path manually, e.g.: 
 # __file__ = 'musicplayer\django01\django01\settings.py'
-BASE_DIR = Path(__file__).resolve().parent.parent
+
+BASE_DIR = Path(__file__).resolve().parent.parent # check the number of '.parent'! It is 2x because BASE_DIR is the Django's project directory and settings.py has 2 levels above: backend/backend/settings.py. 
+
+BASE_DIR_UMBRELLA = BASE_DIR.parent # here is the project directory at all, where all others files and directory outside de Django´s project are, e.g. Vue.js, git, .env etc.
 
 # **** SECURITY WARNING ****
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-load_dotenv(dotenv_path=BASE_DIR / '.env') # .env on .gitignore and .dockerignore!
+load_dotenv(dotenv_path=os.path.join(BASE_DIR_UMBRELLA,'.env')) # .env on .gitignore and .dockerignore!
 
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')         # secrte and strong key!
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')         # secrte and strong key! 
 DEBUG = os.getenv('DEBUG', 'False') == 'True'       # don't run with debug turned on in production!
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '')      # website domain name or IP address
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')      # website domain name or IP address
 
 # SECURITY 'security.W...' (https://docs.djangoproject.com/en/5.1/ref/settings/#security)
+# OBSERVATION:
+# Django's server does not support HTTPS and make difficult to test the security settings locally (e.g. localhost:8000)
+# By the other hand, ajust all variables according to test locally and production is not a good practice.
+# on solution is to controle the security settings using the env variable (DEBUG), set at the .env file; i.e. only on place!
 # Securitty Middleware [see MIDDLEWARE below] 
 # HTTP Strict Transport Security:
-SECURE_HSTS_SECONDS = 31536000          # SecurityMiddleware will set this header on all HTTPS responses if non-zero integer value here (e.g. 31536000) [60*60*24*365 # 31536000 = 1 year in seconds]
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True   # SecurityMiddleware will add the includeSubDomains directive to the Strict-Transport-Security header if True [= assuming all subdomains are served exclusively using HTTPS], otherwise the site may still be vulnerable via an insecure connection to a subdomain.
-SECURE_HSTS_PRELOAD = True              # SecurityMiddleware will add the preload directive to the Strict-Transport-Security header if True [= the site is included in the HSTS preload list], which is a list of sites that are hardcoded into browsers as HTTPS only.
+SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0   # SecurityMiddleware will set this header on all HTTPS responses if non-zero integer value here (e.g. 31536000) [60*60*24*365 # 31536000 = 1 year in seconds]                                      
+SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG  # SecurityMiddleware will add the includeSubDomains directive to the Strict-Transport-Security header if True [= assuming all subdomains are served exclusively using HTTPS], otherwise the site may still be vulnerable via an insecure connection to a subdomain.
+SECURE_HSTS_PRELOAD = not DEBUG             # SecurityMiddleware will add the preload directive to the Strict-Transport-Security header if True [= the site is included in the HSTS preload list], which is a list of sites that are hardcoded into browsers as HTTPS only.
 # SSL Redirect:
-SECURE_SSL_REDIRECT = True              # SecurityMiddleware will permanently redirect all HTTP connections to HTTPS. https://docs.djangoproject.com/en/5.1/ref/middleware/#ssl-redirect
+SECURE_SSL_REDIRECT = not DEBUG             # SecurityMiddleware will permanently redirect all HTTP connections to HTTPS. # https://docs.djangoproject.com/en/5.1/ref/middleware/#ssl-redirect
 # Cross Site Request Forgery Protection: 
-SESSION_COOKIE_SECURE = True            # SecurityMiddleware will set the session cookie with the Secure flag. With this flag set, the browser will prevent the cookie from being sent over an unencrypted HTTP connection.
-CSRF_COOKIE_SECURE = True               # SecurityMiddleware will set the CSRF cookie with the Secure flag. With this flag set, the browser will prevent the cookie from being sent over an unencrypted HTTP connection.
+SESSION_COOKIE_SECURE = not DEBUG           # SecurityMiddleware will set the session cookie with the Secure flag. With this flag set, the browser will prevent the cookie from being sent over an unencrypted HTTP connection.
+CSRF_COOKIE_SECURE = not DEBUG              # SecurityMiddleware will set the CSRF cookie with the Secure flag. With this flag set, the browser will prevent the cookie from being sent over an unencrypted HTTP connection.
 
-# Application definition
+# Default primary key field type
+# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+################################################
+# App music_player_app definition:
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -58,6 +74,21 @@ INSTALLED_APPS = [
     "rest_framework"
 ]
 
+# USER & LOGIN/LOGOUT:
+AUTH_USER_MODEL = 'music_player_app.CustomUser' # This tells Django that the user model to use throughout the project is the CustomUser class implemented  in music_player_app/models.py
+
+# URLS for login and logout... rooting
+LOGIN_URL = '/login/'           # url for login
+LOGIN_REDIRECT_URL = '/home/'   # redirection after login
+LOGOUT_REDIRECT_URL = '/login/' # or '/'       # redirection after logout. '/' is the home page (root). see urls.py
+ROOT_URLCONF = 'backend.urls'   # ESSENTIAL!!! the root URL configuration for the Djang's project. It is the first file that Django will look for when the project is started
+WSGI_APPLICATION = 'backend.wsgi.application'
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.1/howto/static-files/
+
+STATIC_URL = 'static/'
+
 # MIDDLEWAR ~ SecurityMiddleware (SEE ABOVE)
 # https://docs.djangoproject.com/en/5.1/ref/middleware/#module-django.middleware.security
 MIDDLEWARE = [
@@ -70,13 +101,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'backend.urls'
+
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')], # templates folder, where the html files are stored!
+        'APP_DIRS': True, # True to look for html on subfolders of templates
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -88,7 +119,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'backend.wsgi.application'
+
 
 
 # Database
@@ -125,20 +156,6 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
-STATIC_URL = 'static/'
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
