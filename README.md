@@ -119,9 +119,49 @@ Vercel would work better for static webpage and as far as I could undestand it w
 
 ## General steps
 
-xxxxx
+   1. Git and GitHub
+   2. Django and PostSQL
+   3. Docker
+   4. Back4app
+   5. Tailwind
+   6. Vue.js
+
+## File organization
+
+After the steps above, the expected file organization is:
+
+musicplayer/
+├── backend/
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   ├── manage.py
+│   ├── musicplayer/
+│   └── ...Django and PostSQL files
+├── frontend/
+│   ├── Dockerfile
+│   ├── package.json
+│   └── ... Vue.js files
+├── .gitignore
+├── .env
+├── docker-compose.yml
+└── ... 
+
 
 ## Architecture and Infrasctructure
+
+Version of control belongs to the Workflow of any project. The key information for this stepe is already declared at README. Other steps are more specific and implement in this order:
+   1. Git and GitHub
+
+   .ignore
+   .env
+   venv... python... requirements.txt
+
+**File Configurations:**
+
+1. **`.gitignore`**: Located in the root directory (`musicplayer/.gitignore`) to exclude non-versioned files such as `venv`, `*.pyc`, `*.log`, and `.env`.
+
+2. **`requirements.txt`**: frist in the main directory because is the base for virutal environmental and others python projects, not only Django (for instance). Later, at the Docker's step, just a copy to other python´s project such a Django, *i.e.* the backend directory (`musicplayer/backend/requirements.txt`), because the `Dockerfile` in such context should copy this file as follows:
+   ```COPY requirements.txt requirements.txt``` (see Docker's step below)
 
 1. **Backend (Django)**:
 
@@ -181,6 +221,10 @@ Here starts the longest backbone of this project, such additional architeture an
          
          - **.dockerignore**: on the root directory under Docker control for Dockercompose or similar (e.g., Heroku's Procfile). It defines files and directories that Docker should ignore. For security reasons, .env must be set here. This file is normally not considered on recomendations (*e.g.*, [Thompson, 2023](https://www.makeuseof.com/django-secret-key-generate-new/)), but the logic is the same for .gitignore.
 
+   1. 4. **Database (PostgreSQL)**:
+   - **Function**: Stores application data.
+   - **Container**: Docker container for the PostgreSQL database.
+
 
 2. **Frontend (Vue.js)**:
    - **Function**: Manages the user interface.
@@ -188,20 +232,11 @@ Here starts the longest backbone of this project, such additional architeture an
    - **Design**: Implement responsive web design principles.
    - **CSS Framework**: Use Tailwind CSS for styling.
 
-3. **Database (PostgreSQL)**:
-   - **Function**: Stores application data.
-   - **Container**: Docker container for the PostgreSQL database.
+
 
 4. **Integration with Deezer**:
    - **Function**: Fetches and plays music using the Deezer API.
    - **Configuration**: API keys stored in environment variables.
-
-5. **Version Control (GitHub)**:
-   - **Function**: Manages version control and collaboration.
-   - **Configuration**: GitHub repository for versioning code.
-
-6. **Development Environment (VSCode)**:
-   - **Function**: Integrated Development Environment (IDE) for writing and managing code.
 
 7. **Container Orchestration (Docker Compose)**:
    - **Function**: Orchestrates multiple Docker containers.
@@ -277,7 +312,7 @@ visualize and plan the file scture before starting the conde was important to un
 
 .gitingore and .dockerignore
 SEO
-sequency django, git... not git frist!... due to file structure with django e and containers image.
+sequency django, git... not git frist!... due to file structure with django e and containers image. ... SQL to PostSQL after Django default ready, but before Docker steps.
 
 If the project use the tools such as git and containers, the enviranmental variables can be easily exposed on the internet. The .env makes only sense if it is set on igoneres' files of Git as well as Docker (or similar such as Heroku). In such way the environmental variables are not on the script shared by creating image for containers as well as by controling version, considering that it is remote on plattaforms such as GitHub and GitLab. The .dockerignore is normally not considered on recomendations associate to .env as security proceeds (*e.g.*, [Thompson, 2023](https://www.makeuseof.com/django-secret-key-generate-new/)), but the logic is the same for .gitignore.
 

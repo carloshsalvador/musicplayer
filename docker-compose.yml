@@ -1,14 +1,33 @@
 version: '3.8'
 
 services:
+  # CONTAINER FOR DJANGO (based on backend/Dockerfile ~ custom image)
   web:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
-    command: python manage.py runserver 0.0.0.0:8000
+      context: ./backend  # Specifies the build context (directory containing Dockerfile)
+      dockerfile: Dockerfile  # Dockerfile to use for building the web service image
+    command: python manage.py runserver 0.0.0.0:8000  # Command to run the Django development server
     volumes:
-      - ./backend:/app
+      - ./backend:/app  # Mounts the backend directory to /app inside the container. 'bind mount' is used here, which allows changes in the host to be reflected in the container and vice versa.
+    image: py-django4musicplayer:vsWebDesign202409  # setting the image name and tag by building the images with docker-compose --build
     ports:
-      - "8000:8000"
+      - "8000:8000"  # Maps port 8000 of the host to port 8000 of the container
     env_file:
-      - .env
+      - .env  # Loads environment variables from the .env file
+    depends_on:
+      - db  # Specifies that the web service depends on the db service
+
+  # CONTAINER FOR POSTGRESQL (based on official image)
+  db:
+    image: postgres:14  # Official image of PostgreSQL: https://hub.docker.com/_/postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Creates a persistent volume for PostgreSQL data
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}  # Sets environment variables for PostgreSQL using values from .env
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    env_file:
+      - .env  # Loads environment variables for the PostgreSQL service
+
+volumes:
+  postgres_data:  # postgres_data was definied above, by db/service/volumes. Here it defines a named volume for storing PostgreSQL data persistently, which will be not deleted when the container is removed.
