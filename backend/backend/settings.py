@@ -37,7 +37,7 @@ load_dotenv(dotenv_path=os.path.join(BASE_DIR_UMBRELLA,'.env')) # .env on .gitig
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')         # secrte and strong key! 
 DEBUG = os.getenv('DEBUG', 'False') == 'True'       # don't run with debug turned on in production!
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')      # website domain name or IP address
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
 # SECURITY 'security.W...' (https://docs.djangoproject.com/en/5.1/ref/settings/#security)
 # OBSERVATION:
@@ -63,7 +63,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # App music_player_app definition:
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
+    "django.contrib.admin", # Django's admin site (https://docs.djangoproject.com/en/5.1/ref/contrib/admin/#module-django.contrib.admin). For admin user: python manage.py createsuperuser
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -88,6 +88,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # MIDDLEWAR ~ SecurityMiddleware (SEE ABOVE)
 # https://docs.djangoproject.com/en/5.1/ref/middleware/#module-django.middleware.security

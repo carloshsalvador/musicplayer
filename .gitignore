@@ -6,3 +6,6 @@ venv/
 venv39/
 .env
 */.env
+
+# Django's project:
+backend/staticfiles/

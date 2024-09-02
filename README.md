@@ -1,22 +1,3 @@
-correct language text
-
-.env_example
-
-security variáveis de ambiente!.. só .env + .gitingore não adianta porque docker built copia .env, portanto tem que ter tb .dockerignore ...OPÇÃO 2: back4app tb tem opção de fornecer as variávies de ambeinte na hora de criar o deploy do app, como se estivesse configurando as variáveis de ambiente direto no servidor. Talvez seja ainda mais seguro pelo o que entendi, mas preferi não usar essa opção por enquanto, até mesmo para testar a segurança - Professor, tenta acessar as vars?!... desfio para Hacker?
-
-
-css with vue... more than 15 options
-https://medium.com/@emperorbrains/10-vue-js-ui-libraries-trends-in-2024-4ae6a9f653f5
-https://wpshout.com/vue-ui-component-libraries/#gref
-... see script professor.. Tailwind as responsive web
-... Vue.js has SFC scope:
-https://vuejs.org/api/sfc-css-features.html
-
-.. começar pelo Tailwind e depois fazer o Vue!!
-https://tailgrids.com/blog/tailwind-css-integration-with-frameworks-and-tools
-
-
-
 # MUSIC PLAYER APP
 
 Music player app is a project of Web Application for the DHBW/WDS's WebDesign Course (semester 2.2024) carried out by [Prof. Jürgen Toth](https://github.com/juergen1976). It is a course for students who are facing this topic for the first time. It is my first web app for example.
@@ -302,7 +283,7 @@ If the project use the tools such as git and containers, the enviranmental varia
 
 By the other hand, there is alternativ to ingore files such as setting the environmental variable direct on the server or controling then with instruction of Docker's CLI (e.g., E[NV](https://docs.docker.com/reference/dockerfile/#env)). However, .dockerignore file may be a more simple way to exclude files and directories from the build context ([Docker's doc](https://docs.docker.com/reference/dockerfile/#dockerignore-file)).
 
-The backend only was a very big chanllange and took longtime to set. Many basic infornation is very poor documentation (e.g., [secret key](https://code.djangoproject.com/ticket/32451)) and took long to find solution. 
+The backend only was a very big chanllange and took longtime to be implemented. Many key infornation are very poor documented (e.g., [secret key](https://docs.djangoproject.com/en/4.0/ref/utils/) oft reported by users [[Howard](https://code.djangoproject.com/ticket/32451) and [Sam](https://groups.google.com/g/django-developers/c/0nHdj8X_v6Y?pli=1)]) and took long time to find a solution. Thus, web frameworks are very helpful, but they work almost as a black box and require not straithforward oft adaptaions. 
 
 
 ## 2 Django's App and 12 Factors

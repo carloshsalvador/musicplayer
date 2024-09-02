@@ -4,3 +4,4 @@ venv
 .gitignore
 __pycache__
 *.pyc
+backend/staticfiles/
