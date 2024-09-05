@@ -1,7 +1,10 @@
-venv
+# see details on .gitignore
+aaabin/
+venv/
+venv39/
 .env
-.git
-.gitignore
+*/.env
 __pycache__
 *.pyc
 backend/staticfiles/
+db.sqlite3

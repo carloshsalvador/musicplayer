@@ -8,4 +8,8 @@ venv39/
 */.env
 
 # Django's project:
+# https://www.back4app.com/docs-containers/run-a-django-container-app#VPXTk
+__pycache__
+*.pyc
 backend/staticfiles/
+db.sqlite3
