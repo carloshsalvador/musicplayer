@@ -16,8 +16,6 @@ services:
       - "8000:8000"  # Maps port 8000 of the host to port 8000 of the container
     env_file:
       - .env  # Loads environment variables from the .env file
-    environment:
-      DJANGO_LOG_LEVEL: debug
     depends_on:
       - db  # Specifies that the web service depends on the db service
 
