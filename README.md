@@ -123,7 +123,7 @@ The other alternatives of Cloudservices demands more advanced experience, costs 
 
 Here are the general steps. 
 
-The detailed descriptions with codes and explanations are provided in another document [DETAILED_DOCUMENTATION.md](docs/DETAILED_DOCUMENTATION.md).
+The detailed descriptions with codes and explanations are provided in another document [DETAILED_DOCUMENTATION.md](DETAILED_DOCUMENTATION.md).
 
 ## General steps
 
