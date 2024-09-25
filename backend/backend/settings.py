@@ -126,7 +126,7 @@ TEMPLATES = [
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 # here ajusted to use PostgreSQL instead of Djang's default SQLite
-# also set for different scenarios, development (DEBUG=False) and production (DEBUG=False)
+# also set for different scenarios, development (DEBUG=True) and production (DEBUG=False)
 # for example, when DEBUG=True, the database is set to SQLite, which is a simple and easy to use database, perfect for development, and has no problem of connections and functions such manage.py mingrate.
 
 if DEBUG:
