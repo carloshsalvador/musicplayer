@@ -13,4 +13,5 @@ __pycache__
 *.pyc
 backend/staticfiles/
 */db.sqlite3
+db.sqlite3
 */media/
