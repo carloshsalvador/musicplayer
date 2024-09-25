@@ -6,92 +6,50 @@ Here on the other hand is the part II for the specific description of programati
 
 # STEPS AS CONTENT
 
-This app was developed basically in 7 steps. 
+This app was developed basically with 8 steps. 
 
-They are the primery keys to organize this document. It works as the content of this document.
+The steps are the primery keys to organize this document. 
+
+The general steps below works as an overview and the content of this document.
 
 ## GENERAL STEPS:
 
-1. **Libraries**
-1. **Virtual env and Variables**
+1. **Version Control with GitHub**:
+	- version control and collaboration.
+	- setting gitignore, specially file .env. with environments variables such as keys etc.
+2. **File organisation and security**
+	- basically: fodlers, files, Python's virtual environment and environmental variables.
+	- libraries installed at virutal environments.
+	- file .env to procted environmental variables.
+3. **Backend with Django and PostgreSQL**
+	- start django project and Django REST Framework for creating RESTful APIs.
+	- Django's settings.py with DATABASE for PostgresSQL.
+4. **Creating Docker's image and volumes for Django and PostgreSQL**:
+	- Dockerfile to define the Django image.
+	- file .dockerignore to protect env. variables.
+5. **Containers Orchestration with Docker Compose**:
+	- file `docker-compose.yml` to manage all containers separately: Django and Data Bank (PosterSQL)
+6. **Hosting on Back4App**:
+	- Deploy backend and database services on Back4App linked to GitHub for systematically deplyments.
+7. **Frontend with Tailwind CSS**:
+	- developement of user interface. 
+8. **Frontend Development with Vue.js**:
+	- more development of the user interface and use of CSS from Tailwind.
 
-```
-git comment
-python version for docker
-name of folders
-```
+## DJANGO PROJECT: START
 
+Following [Djang's recomendation](https://docs.djangoproject.com/en/5.1/intro/tutorial01/), it is important to avoid naming projects after built-in Python or Django components. In particular, this means names like django (which will conflict with Django itself) or test (which conflicts with a built-in Python package). 
 
-1. **Backend with Django**:
-   - **Function**: Handles business logic and APIs.
-   - **Framework**: Django REST Framework for creating RESTful APIs.
-
-2. **Version Control with GitHub**:
-   - **Function**: Manages version control and collaboration.
-   - **Configuration**: GitHub repository for versioning code.
-
-3. **Creating Docker Image for Django**:
-   - **Function**: Creates a Docker container for the Django server.
-   - **Configuration**: Dockerfile to define the Django image.
-
-4. **Container Orchestration with Docker Compose**:
-   - **Function**: Orchestrates multiple Docker containers.
-   - **Configuration**: `docker-compose.yml` file to define and manage services.
-
-5. **Hosting on Back4App**:
-   - **Function**: Manages backend and database services.
-   - **Configuration**: Deploy backend and database services on Back4App.
-
-6. **Frontend with Tailwind CSS**:
-   - **Function**: Manages the user interface.
-   - **Configuration**: Import and configure Tailwind CSS in the project.
-
-7. **Frontend Development with Vue.js**:
-   - **Function**: Develops the user interface.
-   - **Configuration**: Create Vue.js components and use Tailwind CSS classes.
-
-# VARIABLE
-
-
-You’ll need to avoid naming projects after built-in Python or Django components. In particular, this means you should avoid using names like django (which will conflict with Django itself) or test (which conflicts with a built-in Python package). https://docs.djangoproject.com/en/5.1/intro/tutorial01/
-
-manage.py use 'backend.stettings' ...
-
-O manage.py configura o ambiente do Django definindo a variável de ambiente DJANGO_SETTINGS_MODULE. No seu caso, essa linha os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings') define que o Django deve usar o módulo de configurações localizado em backend/settings.py.
-
-O manage.py  importa execute_from_command_line do módulo django.core.management, que é o comando principal que o Django usa para executar qualquer uma das suas subcomandos (como runserver, migrate, makemigrations, createsuperuser, entre outros). Na shell, um comando como python manage.py runserver, o Django utiliza este manage.py para configurar o ambiente apropriado e, em seguida, chama a função execute_from_command_line(sys.argv). Esse comando processa os argumentos da linha de comando (sys.argv) e executa a tarefa correspondente.
-
-Alguns dos comandos mais utilizados com manage.py incluem:
-
-python manage.py runserver: Inicia o servidor de desenvolvimento do Django.
-python manage.py migrate: Aplica todas as migrações de banco de dados pendentes.
-python manage.py makemigrations: Cria novas migrações com base nas mudanças feitas nos modelos (models) do Django.
-python manage.py createsuperuser: Cria um superusuário para o acesso ao painel administrativo.
-python manage.py startapp <app_name>: Cria um novo aplicativo Django dentro do projeto.
-
-
-
-# 2. **Version Control with GitHub**:
-   - **Function**: Manages version control and collaboration.
-   - **Configuration**: GitHub repository for versioning code.
-
-# 1. **Backend with Django**:
-   - **Function**: Handles business logic and APIs.
-   - **Framework**: Django REST Framework for creating RESTful APIs.
-
-
-## PROJECT
-
-Start the project with proper [name](https://docs.djangoproject.com/en/5.1/intro/tutorial01/#creating-a-project), for example:
+So, start the project with proper [name](https://docs.djangoproject.com/en/5.1/intro/tutorial01/#creating-a-project), for example:
 
 ```django-admin startproject backend```
 
-git commit -m"starting django project with 'django-admin startproject backend'. This add . 
-6 new files: 1 on the root of new backend folder and 5 inside the new backend subfolder with the same name"
+**useful**: git commit -m"starting django project with 'django-admin startproject backend'. This add . 6 new files: 1 on the root of new backend folder and 5 inside the new backend subfolder with the same name"
 
-Check the struture:
+Some files are created automatically. Now, the project's folder has new file struture and organisation:
 
-mysite/
+```
+backend/
     manage.py
     mysite/
         __init__.py
@@ -99,17 +57,28 @@ mysite/
         urls.py
         asgi.py
         wsgi.py
+```
 
-The outer mysite/ root directory is a container for your project. Its name doesn’t matter to Django; you can rename it to anything you like.
-manage.py: A command-line utility that lets you interact with this Django project in various ways. You can read all the details about manage.py in django-admin and manage.py.
-The inner mysite/ directory is the actual Python package for your project. Its name is the Python package name you’ll need to use to import anything inside it (e.g. mysite.urls).
-mysite/__init__.py: An empty file that tells Python that this directory should be considered a Python package. If you’re a Python beginner, read more about packages in the official Python docs.
-mysite/settings.py: Settings/configuration for this Django project. Django settings will tell you all about how settings work.
-mysite/urls.py: The URL declarations for this Django project; a “table of contents” of your Django-powered site. You can read more about URLs in URL dispatcher.
-mysite/asgi.py: An entry-point for ASGI-compatible web servers to serve your project. See How to deploy with ASGI for more details.
-mysite/wsgi.py: An entry-point for WSGI-compatible web servers to serve your project. See How to deploy with WSGI for more details.
+The inner backend/ directory is the Python package for the project. Its name is the Python package name to use to import anything inside it (*e.g.*, mysite.urls)
 
-Tip: TThe settings.py was created in this step and need modification. However, set the modifaction only after creating the app (step below), to avoid extra works afterwards (e.g. change names of folders). This step of modification you find below on the best sequence (be patient!).
+The files descriptions and useful tools:
+	- **manage.py**: this script configures the Django environment by setting the environment variable DJANGO_SETTINGS_MODULE. In this case, the line os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings') specifies that Django should use the settings module located in backend/settings.py.
+	
+	The manage.py script imports the execute_from_command_line function from the django.core.management module, which is the main command that Django uses to execute any of its subcommands (such as runserver, migrate, makemigrations, createsuperuser, among others). When running a shell command like ```python manage.py runserver```, Django uses this manage.py script to configure the appropriate environment and then calls the function execute_from_command_line(sys.argv). This command processes the command-line arguments (sys.argv) and performs the corresponding task.
+	
+	Some of the most commonly used commands with manage.py include:
+		- python manage.py runserver: Starts Django’s development server.
+		- python manage.py migrate: Applies all pending database migrations.
+		- python manage.py makemigrations: Creates new migrations based on the changes made to Django models.
+		- python manage.py createsuperuser: Creates a superuser for accessing the admin panel.
+		- python manage.py startapp <app_name>: Creates a new Django application within the project.
+
+	- **mysite/__init__.py**: An empty file that tells Python that this directory should be considered a Python package.
+	- **mysite/settings.py**: Settings/configuration for this Django project. Django settings will tell you all about how settings work.
+	- **mysite/urls.py**: The URL declarations for this Django project; a “table of contents” of your Django-powered site.
+	- **mysite/asgi.py** and **mysite/wsgi.py**: An entry-point for ASGI-compatible web servers to serve your project.
+	
+The settings.py was created in this step and need modification. However, set the modifaction only after creating the app (step below), to avoid extra works afterwards (*e.g.,* change names of folders). This step of modification you find below on the best sequence (be patient!).
 
 
 ### APPs
@@ -139,7 +108,7 @@ this project requires at least 2 apps:
 (venv) PS D:\CAIQUE\DataScience\WDS23_2_WebDesign\musicplayer\backend> python manage.py startapp api
 (venv) PS D:\CAIQUE\DataScience\WDS23_2_WebDesign\musicplayer\backend> python manage.py startapp music_player_app
 
-git commit -m"2 apps created with 'python manage.py start app ...' (api and music_player). this stepe create tow folder with 8 files each, total of 16 new files"
+**useful**: git commit -m"2 apps created with 'python manage.py start app ...' (api and music_player). this stepe create tow folder with 8 files each, total of 16 new files"
 
 
 #### project's scripts modification
@@ -160,7 +129,7 @@ INSTALLED_APPS = [
     "rest_framework" 
 ]
 
-git commit -m "setting  the file backend/settings.py with INSTALLED_APPS=[..,music_player, api, rest_framework] variable."
+**useful**: git commit -m "setting  the file backend/settings.py with INSTALLED_APPS=[..,music_player, api, rest_framework] variable."
 
 
 Take the oportunity and generate and update the secrete key:
@@ -240,7 +209,7 @@ class Song(models.Model):
 		return self.title
 ```
 
-git commit -m "setting api/models.py with code to define a Django model named 'Song'(a Python's class) with fields for id, title, category, artist,rning the song title."
+**useful**: git commit -m "setting api/models.py with code to define a Django model named 'Song'(a Python's class) with fields for id, title, category, artist,rning the song title."
 
 ###### APP: music_player_app
 
@@ -263,14 +232,14 @@ class CustomUser(AbstractUser):
 
 ```
 
-git commit -m "similar to commit before, but settings to music_player_app/models.py :code defines a custom Django user model named 'CustomUser' that extends the AbstractUser model, adding fields for groups and user permissions, allowing users to be associated with multiple groups and permissions"
+**useful**: git commit -m "similar to commit before, but settings to music_player_app/models.py :code defines a custom Django user model named 'CustomUser' that extends the AbstractUser model, adding fields for groups and user permissions, allowing users to be associated with multiple groups and permissions"
 
 ##### project/app/views.py
 
-git commit -m "settings api/views.py requires also new library djangorestframework (modulo rest_framework used on this script). requirements.txt was thus also updated"
+**useful**: git commit -m "settings api/views.py requires also new library djangorestframework (modulo rest_framework used on this script). requirements.txt was thus also updated"
 
 
-git commit -m "setting views.py for music_player_app. For testing I did also python manage.py migrate and python mandage runserver; this create more files automaticlly such as the subfoler api/__pycach__ and api/migrations as well as in music_player_app."
+**useful**: git commit -m "setting views.py for music_player_app. For testing I did also python manage.py migrate and python mandage runserver; this create more files automaticlly such as the subfoler api/__pycach__ and api/migrations as well as in music_player_app."
 
 
 be aware that music_player_app/views.py uses folder name music_player_app.... if it is not right name, change it!
@@ -291,7 +260,7 @@ class SongSerializer(serializers.ModelSerializer):
 ```
 
 
-git commit -m "create and set a new file for api/serializers.py with code to define a Django Rest Framework serializer, 'SongSerializer', using the model 'Song' and including all fields for serialization. This information was also updated on Readme."
+**useful**: git commit -m "create and set a new file for api/serializers.py with code to define a Django Rest Framework serializer, 'SongSerializer', using the model 'Song' and including all fields for serialization. This information was also updated on Readme."
 
 
 
@@ -318,9 +287,7 @@ class LoginForm(AuthenticationForm):
 ```
 
 
-git commit -m "create and set a new file for music_palyer_app/forms.py with code to define a registration form ('RegistrationForm') and a login form ('LoginForm') for a custom user model, extending default Django forms for user creation and authentication.This information was also updated on Readme."
-
-git commit -m ""
+**useful**: git commit -m "create and set a new file for music_palyer_app/forms.py with code to define a registration form ('RegistrationForm') and a login form ('LoginForm') for a custom user model, extending default Django forms for user creation and authentication.This information was also updated on Readme."
 
 #### urls.py
 
@@ -341,7 +308,7 @@ urlpatterns = [
 ]
 ```
 
-git commit -m "create and set a new file for api/urls.py with code to set up Django URL patterns for song listing/creation and song detail using 'SongListCreateView' and 'SongDetailView' views, respectively. This information was also updated on Readme."
+**useful**: git commit -m "create and set a new file for api/urls.py with code to set up Django URL patterns for song listing/creation and song detail using 'SongListCreateView' and 'SongDetailView' views, respectively. This information was also updated on Readme."
 
 ##### music_player_app/urls.py
 
@@ -366,7 +333,7 @@ urlpatterns = [
 ]
 ```
 
-git commit -m "create and set a new file for music_player_app/urls.py with code to define Django URL patterns for user authentication, registration, login, logout, and views for the home page, updating a song, and adding a song in the music player app. It includes paths for default authentication views, custom registration and login views, and specific URLs for app features. This information was also updated on Readme."
+**useful**: git commit -m "create and set a new file for music_player_app/urls.py with code to define Django URL patterns for user authentication, registration, login, logout, and views for the home page, updating a song, and adding a song in the music player app. It includes paths for default authentication views, custom registration and login views, and specific URLs for app features. This information was also updated on Readme."
 
 ##  Graphical User Interface (GUI)
 
@@ -382,7 +349,7 @@ Here starts a new and important component. It involves adding a new folder **tem
     5. UpdateSong.html
 This structure allows Django to easily locate and render the correct templates by functions like ```render()``` in **views.py**.
 
-git commit -m "create a new folder on the projects root with a subfolder, the 'templates/music_player_app', to host the html files for the GUI in regards to to music_player_app created earlier. The html files were also added but empety."
+**useful**: git commit -m "create a new folder on the projects root with a subfolder, the 'templates/music_player_app', to host the html files for the GUI in regards to to music_player_app created earlier. The html files were also added but empety."
 
 ### AddSong.html
 
@@ -885,7 +852,7 @@ This file contains a form for updating existing songs in the music player. It re
 
 ### git commit it!!
 
-git commit -m "all files html empty created on the stept (git commit) before were now filled up with code. All of them belongs to GUI associated to the Django's music_player_app"
+**useful**: git commit -m "all files html empty created on the stept (git commit) before were now filled up with code. All of them belongs to GUI associated to the Django's music_player_app"
 
 ## admin.py
 
@@ -931,7 +898,7 @@ from .models import CustomUser
 admin.site.register(CustomUser, UserAdmin)
 ```
 
-git commit -m "create and update the admin.py files at api and music_player_app folder each. They are the last step before migration and deploy Django app"
+**useful**: git commit -m "create and update the admin.py files at api and music_player_app folder each. They are the last step before migration and deploy Django app"
 
 # DATABASE
 
@@ -977,7 +944,7 @@ This command copys the key to the clipboar direct, but need the pythons' library
 
 Update **requirements.txt**.
 
-```pip freeze >> requirements.txt```
+```pip freeze > requirements.txt```
 
 ### File organization
 
@@ -1048,13 +1015,13 @@ add:
 
 PostgreSQL Container: Este container usa uma imagem oficial do PostgreSQL fornecida pelo Docker Hub. Ele é totalmente separado da imagem do Django e é configurado apenas para executar o servidor PostgreSQL.
 
-
-
-Delte `db.sqlite3` automatically created by Djang's default.
+Delte the `db.sqlite3` file because it was automatically created by staring the project with the default command of Django.
 
 # 3. **Creating and run Docker Image**:
 
-Until here there is only one dockerfile to buil the docker image and wouldn't be necessary to use the **docker-compose.yml** now, but it is interesting for build the image due to the files structure such **.env** and **.dockerignore** at the main root, out of the backend directory instead. This procedure make also easier to set tags for the containers' name by setting then inside the docker-compose.yml instead of in each ```docker build --tag...```. Only **requirements.txt** is interesting to keep simple copy inside the directories to avoid more setting paths inside the Dockerfiles. For this reason start this step by copying it to respective directories with (in WSL2 and Mac):
+Until here there is only one dockerfile to buil the docker image and wouldn't be necessary to use the **docker-compose.yml** now, but it is interesting for build the image due to the files structure such **.env** and **.dockerignore** at the main root, out of the backend directory instead. This procedure make also easier to set tags for the containers' name by setting then inside the docker-compose.yml instead of in each ```docker build --tag...```. 
+
+Only **requirements.txt** is interesting to keep simple copy inside the directories to avoid more setting paths inside the Dockerfiles. For this reason start this step by copying it to respective directories with (in WSL2 and Mac):
 
 ```cp requirements.txt ./backend/requirements.txt```
 
@@ -1066,7 +1033,7 @@ Now, builing the images and run containers:
 
 Or run ```docker-compose up -d``` on detached mode to keep the terminal free, *i.e.* ruining in background. In this case, 2 commands are useful: `docker-compose ps` to check the containers are runing and `docker-compose down` to stop them.
 
-Just in case of enventual need to remove and rebuild images, containers and volums after tests (e.g., after changing Dockerfile, or environmental variables on .env):
+Just in case of enventual problem to remove and rebuild images, containers and volums after tests (e.g., after changing Dockerfile, or environmental variables on .env):
 
 ```docker-compose down -v```
 
