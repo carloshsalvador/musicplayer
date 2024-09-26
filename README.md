@@ -6,26 +6,37 @@ As an overview, this web application was developed based mainly on 2 frameworks,
 
 Therefore, there are 2 ways to check the musicplayer app after cloning this project:
 
-1. **development modus**: This is the version by cloning the project and is the quicker and easier way to see the app runing. The steps are:
+1. **development modus**
 
-   1. install all dependecies based on **musicplayer/requirements.txt**
-   2. create and set a new file **musicplayer/.env** based on the **musicplayer/.env_example**.
-   3. on terminal, at root **musicplayer/**, execute:
+   This is the version by cloning the project and is the quicker and easier way to see the app runing. The steps are:
 
-      ```python manage.py makemigrations```
+      1. install all dependecies based on **musicplayer/requirements.txt**
+      2. create and set a new file **musicplayer/.env** based on the **musicplayer/.env_example**.
+      3. on terminal, at root **musicplayer/**, execute:
 
-      ```python manage.py migrate```
+         ```python manage.py makemigrations```
 
-      ```python manage.py runserver```
+         ```python manage.py migrate```
 
-   - OBS: in this modus, the data bank is the Django's default [SQLite](https://www.sqlite.org/), not [PostgreSQL](https://www.postgresql.org/), developed for the production modus (below).
+         ```python manage.py runserver```
+      4. on browser, test the app at http://127.0.0.1:8000/
+
+      - OBS: in this modus, the data bank is the Django's default [SQLite](https://www.sqlite.org/), not [PostgreSQL](https://www.postgresql.org/), developed for the production modus (below).
 
 2. **production modus**:
 
    1. install all dependecies based on **musicplayer/requirements.txt**
    2. create and set a new file **musicplayer/.env** based on the **musicplayer/.env_example**.
-      - [2.1] at **musicplayer/.env**, set ```DEBUG=False```
-   3. create the Dockercontainers based on the file **musicplayer/docker-compose.yml** using the terminal at root **musicplayer/** with the following commands:
+      1. at **musicplayer/.env**, set ```DEBUG=False```
+   3. create and run the Dockercontainers based on the file **musicplayer/docker-compose.yml** using the terminal at root **musicplayer/** with the following commands:
+      1. ```docker-compose build ```
+      2. ```docker-compose up ```
+   4. run the app inside the container:
+      1. ```docker-compose build ```
+      2. ```docker-compose up `
+
+
+
 
       ```built and run, entra no container, executa o app no container     ```
 

@@ -1026,7 +1026,7 @@ add:
 
 PostgreSQL Container: Este container usa uma imagem oficial do PostgreSQL fornecida pelo Docker Hub. Ele é totalmente separado da imagem do Django e é configurado apenas para executar o servidor PostgreSQL.
 
-Delte the `db.sqlite3` file because it was automatically created by staring the project with the default command of Django.
+
 
 # 3. **Creating and run Docker Image**:
 
