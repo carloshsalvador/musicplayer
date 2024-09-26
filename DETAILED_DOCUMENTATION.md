@@ -60,21 +60,35 @@ musicplayer/
 
 The inner backend/ directory is the Python package for the project. Its name is the Python package name to use to import anything inside it (*e.g.*, mysite.urls).
 
-The files descriptions and useful tools:
+The files descriptions and their useful tools:
 
-- **manage.py**: this script configures the Django environment by setting the environment variable DJANGO_SETTINGS_MODULE. In this case, the line os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings') specifies that Django should use the settings module located in backend/settings.py.
-The manage.py script imports the execute_from_command_line function from the django.core.management module, which is the main command that Django uses to execute any of its subcommands (such as runserver, migrate, makemigrations, createsuperuser, among others). When running a shell command like ```python manage.py runserver```, Django uses this manage.py script to configure the appropriate environment and then calls the function execute_from_command_line(sys.argv). This command processes the command-line arguments (sys.argv) and performs the corresponding task.
-Some of the most commonly used commands with manage.py include:
-- ```python manage.py runserver```: Starts Django’s development server.
-- ```python manage.py makemigrations```: Creates new migrations based on the changes made to Django models.
-- ```python manage.py migrate```: Applies all pending database migrations.
-- ```python manage.py createsuperuser```: Creates a [superuser](https://docs.djangoproject.com/en/5.1/ref/contrib/admin/#module-django.contrib.admin) for accessing the admin panel.
-- ```python manage.py startapp <app_name>```: Creates a new Django application within the project.
+- **manage.py**
 
-- **mysite/__init__.py**: An empty file that tells Python that this directory should be considered a Python package.
-- **mysite/settings.py**: Settings/configuration for this Django project. Django settings will tell you all about how settings work.
-- **mysite/urls.py**: The URL declarations for this Django project; a “table of contents” of your Django-powered site.
-- **mysite/asgi.py** and **mysite/wsgi.py**: An entry-point for ASGI-compatible web servers to serve your project.
+	This script configures the Django environment by setting the environment variable DJANGO_SETTINGS_MODULE. In this case, the line os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings') specifies that Django should use the settings module located in backend/settings.py.
+
+	The manage.py script imports the execute_from_command_line function from the django.core.management module, which is the main command that Django uses to execute any of its subcommands (such as runserver, migrate, makemigrations, createsuperuser, among others). When running a shell command like ```python manage.py runserver```, Django uses this manage.py script to configure the appropriate environment and then calls the function execute_from_command_line(sys.argv). This command processes the command-line arguments (sys.argv) and performs the corresponding task.
+	Some of the most commonly used commands with manage.py include:
+	1. ```python manage.py runserver``` # Starts Django’s development server.
+	2. ```python manage.py makemigrations``` # Creates new migrations based on the changes made to Django models.
+	3. ```python manage.py migrate``` # Applies all pending database migrations.
+	4. ```python manage.py createsuperuser``` # Creates a [superuser](https://docs.djangoproject.com/en/5.1/ref/contrib/admin/#module-django.contrib.admin) for accessing the admin panel.
+	5. ```python manage.py startapp <app_name>``` # Creates a new Django application within the project.
+
+- **mysite/__init__.py**
+
+	An empty file that tells Python that this directory should be considered a Python package.
+
+- **mysite/settings.py**
+
+	Settings/configuration for this Django project. Django settings will tell you all about how settings work.
+
+- **mysite/urls.py**
+
+	The URL declarations for this Django project; a “table of contents” of your Django-powered site.
+
+- **mysite/asgi.py** and **mysite/wsgi.py**
+	
+	An entry-point for ASGI-compatible web servers to serve your project.
 	
 The **settings.py** was created in this step and need modification. However, set the modifaction only after creating the app (step below), to avoid extra works afterwards (*e.g.,* change names of folders). This step of modification you find below on the best sequence ((Remember, it works as recipt and the sequence matter... like cooking :-)).
 
