@@ -6,7 +6,7 @@ As an overview, this web application was developed based mainly on 2 frameworks,
 
 Therefore, there are 2 ways to check the musicplayer app after cloning this project:
 
-- **development modus**: This is the version by cloning the project and is the quicker and easier way to see the app runing. The steps are:
+1. **development modus**: This is the version by cloning the project and is the quicker and easier way to see the app runing. The steps are:
 
    1. install all dependecies based on **musicplayer/requirements.txt**
    2. create and set a new file **musicplayer/.env** based on the **musicplayer/.env_example**.
@@ -20,7 +20,7 @@ Therefore, there are 2 ways to check the musicplayer app after cloning this proj
 
    - OBS: in this modus, the data bank is the Django's default [SQLite](https://www.sqlite.org/), not [PostgreSQL](https://www.postgresql.org/), developed for the production modus (below).
 
-- **production modus**:
+2. **production modus**:
 
    1. install all dependecies based on **musicplayer/requirements.txt**
    2. create and set a new file **musicplayer/.env** based on the **musicplayer/.env_example**.
