@@ -32,15 +32,19 @@ Therefore, there are 2 ways to check the musicplayer app after cloning this proj
       1. ```docker-compose build ```
       2. ```docker-compose up ```
    4. run the app inside the container:
-      1. ```docker-compose build ```
+      1. ```docker-compose ex ```
       2. ```docker-compose up `
 
+   3. on terminal, at root **musicplayer/**, execute:
 
+      ```python manage.py makemigrations```
 
+      ```python manage.py migrate```
 
-      ```built and run, entra no container, executa o app no container     ```
+      ```python manage.py runserver```
+   4. on browser, test the app at http://127.0.0.1:8000/
 
-This project has tried to follow as much as possible the Adams Wiggins's [12 factors](https://12factor.net/), such as easy code's sharing, backing service and security. Some guidlines of this methodology make no much sense for this project, such as escalability and demands for team work because it is a individual project, but they were implemented anyway as best practice and learning by developing a web application for the frist time.
+Since the begning, this project has tried to follow as much as possible the Adams Wiggins's [12 factors](https://12factor.net/), such as easy code's sharing, backing service and security. Some guidlines of this methodology make no much sense for this project, such as escalability and demands for team work because it is a individual project, but they were implemented anyway as best practice and learning by developing a web application for the frist time.
 
 In this **README.md** the readers can find below the context, dependencies, architecture and infrasctructure and how the app was planed. However, **DETAILED_DOCUMENTATION.md** was developed as a recipt step-by-step for my memory of this project, with detailed description of the development sequence, *i.e.*, the explanation about the steps itself, but not the context.
 

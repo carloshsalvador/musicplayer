@@ -310,6 +310,8 @@ The urls.py files in both the api and music_player_app directories are used to d
 
 api/urls.py : below code sets up Django URL patterns for song listing/creation and song detail using “SongListCreateView” and “SongDetailView” views, respectively.
 
+The SongListCreateView and SongDetailView classes are using the Django REST Framework's generic views (generics.ListCreateAPIView and generics.RetrieveUpdateDestroyAPIView), which are suitable for basic CRUD operations.
+
 ```
 # api/urls.py
 from django.urls import path

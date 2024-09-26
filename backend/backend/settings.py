@@ -39,6 +39,11 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')         # secrte and strong key!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'       # don't run with debug turned on in production!
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
+# SPOTIFY API KEYS:
+SPOTIFY_CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
+SPOTIFY_CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
+SPOTIFY_REDIRECT_URI = 'http://localhost:8000/callback'
+
 # SECURITY 'security.W...' (https://docs.djangoproject.com/en/5.1/ref/settings/#security)
 # OBSERVATION:
 # Django's server does not support HTTPS and make difficult to test the security settings locally (e.g. localhost:8000)
