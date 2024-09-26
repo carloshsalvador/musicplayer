@@ -1,19 +1,44 @@
 # MUSIC PLAYER APP
 
-Music player app is a project of web application for the DHBW/WDS's WebDesign Course (semester 2./2024) carried out by [Prof. Jürgen Toth](https://github.com/juergen1976). It is a course for students who are facing this topic for the first time. Thus, it is my first web app for example.
+Music player app is a project of web application for the DHBW/WDS's WebDesign Course carried out by [Prof. Jürgen Toth](https://github.com/juergen1976) during the semeter 2./2024. It is a course for students who are facing this topic for the first time. Thus, the project's main goal was the development of a music player. 
 
-The main goal is the development of a music player.
+As an overview, this web application was developed based mainly on 2 frameworks, the [Django 5.1](https://www.djangoproject.com/) as backend and the [Vue.js](https://vuejs.org/) as frontend, and the data bank was [PostgreSQL](https://www.postgresql.org/) with music from [Deezer](https://www.deezer.com/en/). These elements are separted on [Dockercontainers](https://www.docker.com/).
 
-As an overview, this web application was developed using basically 2 frameworks, [Django](https://www.djangoproject.com/) as backend and [Vue.js](https://vuejs.org/) as frontend, and the data bank is [PostgreSQL](https://www.postgresql.org/) with music from [Deezer](https://www.deezer.com/en/). All the tree element are separted on [Dockercontainers](https://www.docker.com/).
+Therefore, there are 2 ways to check the musicplayer app after cloning this project:
 
-This project has tried to follow as much as possible the Adams Wiggins's [12 factors](https://12factor.net/), such as easy code's sharing, backing service and security. Some guidlines of this methodology make no much sense for this project, such as escalability and demands for team work because it is a individual project, but they were implemented as best practice and learning by developing a web application for the frist time.
+- **development modus**: This is the version by cloning the project and is the quicker and easier way to see the app runing. The steps are:
+
+   1. install all dependecies based on **musicplayer/requirements.txt**
+   2. create and set a new file **musicplayer/.env** based on the **musicplayer/.env_example**.
+   3. on terminal, at root **musicplayer/**, execute:
+
+      ```python manage.py makemigrations```
+
+      ```python manage.py migrate```
+
+      ```python manage.py runserver```
+
+   - OBS: in this modus, the data bank is the Django's default [SQLite](https://www.sqlite.org/), not [PostgreSQL](https://www.postgresql.org/), developed for the production modus (below).
+
+- **production modus**:
+
+   1. install all dependecies based on **musicplayer/requirements.txt**
+   2. create and set a new file **musicplayer/.env** based on the **musicplayer/.env_example**.
+      - [2.1] at **musicplayer/.env**, set ```DEBUG=False```
+   3. create the Dockercontainers based on the file **musicplayer/docker-compose.yml** using the terminal at root **musicplayer/** with the following commands:
+
+      ```built and run, entra no container, executa o app no container     ```
+
+This project has tried to follow as much as possible the Adams Wiggins's [12 factors](https://12factor.net/), such as easy code's sharing, backing service and security. Some guidlines of this methodology make no much sense for this project, such as escalability and demands for team work because it is a individual project, but they were implemented anyway as best practice and learning by developing a web application for the frist time.
+
+In this **README.md** the readers can find below the context, dependencies, architecture and infrasctructure and how the app was planed. However, **DETAILED_DOCUMENTATION.md** was developed as a recipt step-by-step for my memory of this project, with detailed description of the development sequence, *i.e.*, the explanation about the steps itself, but not the context.
 
 ---
 ---
 
 # Before starting
 
-In this readme you can find my frist decisions before starting, my literature review and why I decided for some alternatives among the high diverse possibilities of building a dynamic web-site such as a music palyer.
+Here I share my frist decisions I have faced before starting, my literature review and why I have decided for some alternatives among the high diverse possibilities of building a dynamic web-site such as a music palyer.
 
 ## The challenge
 
@@ -22,28 +47,27 @@ It is my frist app and many new topics needed to be decided and understand befor
 The topics I have faced on the begining were:
  - general stetps for any app - how to start and how to finish it.
  - two colossal topics: frontend and backend.
- - programming languages and frameworks.
- - architecture and infrastructure: api gateway, server, data bank, load balance, caching, security, PaaS, CaaS etc.
+ - diveristy of programming languages and frameworks.
+ - architecture and infrastructure: api, server, data bank, load balance, caching, security, PaaS, CaaS etc.
 
 ## Frontend & Backend and the Framework
 
-A music player app requires more elemente for the user experience ([UX](https://en.wikipedia.org/wiki/User_experience)) because they interacts much more dynamically rewriting the current web page with new data from the web server by searching music and different states like play and stop, instead of the more traditional method of loading entire new pages (or static web page) after any user's requires (~ user's clicks). The important key here was then the search engine optimization ([SEO](https://moz.com/learn/seo/what-is-seo)) to imporve the quality and quantity of website traffic and the choice a modern type of aplication for this project, such as the Simple-Page-Aplication ([SAP](https://en.wikipedia.org/wiki/Single-page_application)) for faster transitions that make the website feel more like a native app. 
+A music player app requires more elemente for the user experience ([UX](https://en.wikipedia.org/wiki/User_experience)) because they interacts much more dynamically rewriting the current web page with new data from the web server by searching music and different states like play and stop, instead of the more traditional method of loading entire new pages (or static web page) after any user's requires (~ user's clicks). The important key here was to understand the implications of the search engine optimization ([SEO](https://moz.com/learn/seo/what-is-seo)) to imporve the quality and quantity of website traffic and the choice of the modern types of aplications for projects like this, such as the Simple-Page-Aplication ([SAP](https://en.wikipedia.org/wiki/Single-page_application)) for faster transitions that make the website's feelings more like a native app. 
 
-Therefore, the music app as a dynamic websites wourld be more efficent by Server-side programming with frameworks that allow create dynamic websites and deliver customized information in response to HTTP requests ([Mozilla Devs](https://developer.mozilla.org/en-US/docs/Learn/Server-side)).
+Therefore, the music app as a dynamic websites had be more efficent by server-side programming with frameworks that allow create dynamic websites and deliver customized information in response to HTTP requests ([Mozilla Devs](https://developer.mozilla.org/en-US/docs/Learn/Server-side)).
 
-The framework choise was then a relevant topic to start drawing this project. The choice would be helpful for more foccus afterwards and to search specific information.
+The framework choise was then the frist main topic to start drawing this project. The choice would be helpful for more foccus afterwards and to search specific information.
 
-Follwing the professor's scripts, the most popular SAP's frameworks are:
+Follwing the professor's scripts, the most popular SAP's frameworks were:
 - [React.js](https://react.dev/) (developed by Facebook)
 - [Angular](https://angularjs.org/) (devolped by Google)
 - [Vue.js](https://vuejs.org/)(open source)
 
-In this project I opted for [Vue.js](https://vuejs.org/) for any special reason because there are not enought time to test all possibilities and compere the pros and cons, and all of then share some important feature for the choice, such as the programing language (all javascript) free open source (Wikipedia: [Vue](https://en.wikipedia.org/wiki/Vue.js), [React](https://en.wikipedia.org/wiki/React_(JavaScript_library)), [Angular](https://en.wikipedia.org/wiki/AngularJS)). Maybe the most influence for Vue.js was the positiv comment by the professor by compering these 3 SPA frameworks during the Web Design's lectures.
+In this project I opted for [Vue.js](https://vuejs.org/) for any special reason because there are not enought time to test all possibilities and compare the pros and cons. Moreover, they share some important feature that would important to me, such as the programing language (the three use javascript) and the free open source (Wikipedia: [Vue](https://en.wikipedia.org/wiki/Vue.js), [React](https://en.wikipedia.org/wiki/React_(JavaScript_library)), [Angular](https://en.wikipedia.org/wiki/AngularJS)). Maybe the most influence for **Vue.js** was the positiv comment by the professor by compering these 3 SPAs frameworks during the Web Design's lectures.
 
 Nevertheless, they are frameworks for frontend, good for management the user interface (UI) and handle client-side demands. This project rather requirs a backend's framework for more robust development such object relational mapping ([ORM](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping)), data bank interaction and APIs, authentification and security ([examples](https://www.gyata.ai/python/orm-object-relational-mapping#advanced-orm-concepts-in-django)). The ORM of Django framework for example provides a high-level, Pythonic abstraction for database management, making it easier to work with databases ([Django ORM](https://www.lycore.com/blog/django-orm-a-guide-to-database-management-in-django/)).
 
-
-For the backend framework the tendecy was to opt for one based on programing language I had experience before such as python, javascript and R. The points I have considered for the framework's choice was then based on mainly the programe language:
+For the backend framework the tendecy was to opt for one based on programing language I had experience before such as python, javascript and R. The points I have considered for the framework's choice was then based on mainly the programe language that I had to use:
 - Python with [Django](https://www.djangoproject.com/) framework was the most interseting one to me due to my former experience, to the rich and powerfull libraries for web developement and to a great oportunity to use a second language in this project without great effort. About libraries and tools for example, [Joy](https://pythonistaplanet.com/advantages-of-django/) has pointed out 11 advantages such tools for security login, ORM and SEO and a interesting MVT:
 
 <img src='https://cdn-0.pythonistaplanet.com/wp-content/uploads/2020/02/Django_MVT-1-683x1024.jpg?ezimgfmt=ng:webp/ngcb19' alt="Django's Model View Template (MVT) Architecture" title="Django's Model View Template (MVT) Architecture">
@@ -62,9 +86,9 @@ Some tutorials was also considered to check the frameworks' aprouch with music a
 - dynamic web-site with Django by [MMD](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Deployment)
 - a professional overview by Altynpara & Khodukina from [Cleaverroad](https://www.cleveroad.com/blog/how-to-create-a-music-streaming-app/)
 
-The final decision was Django framework. With this decision I could jump to the next step such as architecture, infrastructure and hands on the 12 factors in practice.
+The final decision was Django framework. With this decision I could move forward to the next step such as architecture, infrastructure and hands on the 12 factors in practice.
 
-Some choice's consequence up to here is the complexity of file and scripts organization. They are going to be much more complex with both [front and backend's framework](https://www.geeksforgeeks.org/music-player-using-django/) than one frontend framework only (*e.g.*, [Peseski](https://dev.to/psamim/micro-frontends-after-one-year-with-single-spa-1eoo)) and it was important step to understand were the project could reach on the end.
+Some choice's consequence up to here was the complexity of file and scripts organization. It was expected much more complex with both [front and backend's framework](https://www.geeksforgeeks.org/music-player-using-django/) than one frontend framework only (*e.g.*, [Peseski](https://dev.to/psamim/micro-frontends-after-one-year-with-single-spa-1eoo)) and it was important step to understand were the project could reach on the end.
 
 ```
 Expected file and scripts organization with frontend framework only (first figure) and with compbination of both frameworks (second figure):
@@ -99,7 +123,7 @@ The 12 factors methodology was the main general guide lines to follow in this pr
 
 A Plattforme as a Service (PaaS) called [Heroku](https://www.heroku.com) is rather the most cited way to simulate the ideal web app production all in one ([Wikipedia](https://en.wikipedia.org/wiki/Twelve-Factor_App_methodology), [Koyeb](https://www.koyeb.com/blog/herokus-free-tier-legacy-the-shoulders-we-stand-on-15-years-later)). Actually, the same author of the 12 factors, Adams Wiggens, was the team member of Heroku's creation [Wikipedia](https://en.wikipedia.org/wiki/Twelve-Factor_App_methodology) and this methodology is very educationl for the best practice on the production of web application ([Akita](https://www.akitaonrails.com/2022/01/10/akitando-112-subindo-aplicacoes-web-em-producao-aprendendo-heroku),[Koyeb](https://www.koyeb.com/blog/herokus-free-tier-legacy-the-shoulders-we-stand-on-15-years-later)).
 
-By the other hand, there are critics for 12 Factors and Heroku ([Nginx](https://web.archive.org/web/20171222082423/https://www.nginx.com/blog/microservices-reference-architecture-nginx-twelve-factor-app/)). The critics concerns on the soluciton mainly for [microservice](https://learn.microsoft.com/en-us/azure/architecture/microservices/), what is not the case of this project. Thus, I have kept the idea of simplicity of Heroku as the most useful tools to follow the 12 factor.
+By the other hand, there are critics for 12 Factors and Heroku ([Nginx](https://web.archive.org/web/20171222082423/https://www.nginx.com/blog/microservices-reference-architecture-nginx-twelve-factor-app/)). The critics concerns on the soluction mainly for [microservice](https://learn.microsoft.com/en-us/azure/architecture/microservices/), what is not the case of this project. Thus, I have kept the idea of simplicity of Heroku as the most useful tools to follow the 12 factor.
 
 Nevertheless, Heroku has unfortunatly canceled its free service since 2022 ([Koyeb](https://www.koyeb.com/blog/herokus-free-tier-legacy-the-shoulders-we-stand-on-15-years-later)). Since then alternativ to Heroku was topic for many reviews and forums. Some selection for looking for a free alternative was:
 - [Alisdair](https://medium.com/@alisdair_/top-heroku-alternatives-in-2024-6d6831cb6e08): updated (Jan 2024): 3 alternative and a Table of comparision.
@@ -112,11 +136,11 @@ Some Heroku's alternativ considered with more details for checking were:
 - Kubernets and Dockercontainers
 - Complet cloud services such as Google App Engine, AWS and Microsoft's Azure.
 
-The final decision was the Back4app as PaaS to host all application because it works very similar to Heroku linked with GitHub and has [documentation](https://blog.back4app.com/how-to-deploy-a-django-application/) to deploy Django's app. **Container as a Service (CaaS)** is the Back4app's plataforme linked with GitHub and Dockercontainer. 
+The final decision was the Back4app as PaaS to host all application because it works very similar to Heroku linked with GitHub and has a interesting [documentation](https://blog.back4app.com/how-to-deploy-a-django-application/) to deploy Django's apps. The **Container as a Service (CaaS)** is the Back4app's plataforme version linked to GitHub and Dockercontainer, similar to Heroku.
 
 Vercel is a serverless platform with support for 35+ frontend frameworks and it would work better for static webpage, but not so well for this project of music player as a dynamic one. Moreover, it does not support running docker instances ([Verscel](https://vercel.com/guides/does-vercel-support-docker-deployments)).
 
-The other alternatives of Cloudservices demands more advanced experience, costs and all element of infrastructure would be dependent on their tecnology sistem (*e.g.*, Google), *i.e.* the project would be restric to one service lossing libertiy and it was much advenced out of the scope of this project and requirments of this app.
+The other remaining alternatives of Cloudservices demanded more advanced experience and costs. The Back4app seemed me more easier. Moreover, Back4app is independent and mix all possibilities. With other alternativas would be different and not so much attractive. In these cases, all element of infrastructure would be dependent on their tecnology sistems (*e.g.*, Google), *i.e.* the project would be restric to one service lossing libertiy and it was much advenced out of the scope of this project and requirments of this app.
 
 
 # Staring the project

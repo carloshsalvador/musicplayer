@@ -2,7 +2,7 @@
 
 The file README.md is the part I to develop a web application of music player. The readers can there find the context, dependencies, architecture and infrasctructure and how the app was planed.
 
-Here on the other hand is the part II for the specific description of programation's stetps with some explanation about the step itself, but not the context.
+Here on the other hand is the part II for the specific description of programation's steps with some explanation about the step itself, but not the context.
 
 # STEPS AS CONTENT
 
@@ -10,7 +10,7 @@ This app was developed basically with 8 steps.
 
 The steps are the primery keys to organize this document. 
 
-The general steps below works as an overview and the content of this document.
+Terefore, the general steps below works as an overview and the content of this document.
 
 ## GENERAL STEPS:
 
@@ -40,56 +40,55 @@ The general steps below works as an overview and the content of this document.
 
 Following [Djang's recomendation](https://docs.djangoproject.com/en/5.1/intro/tutorial01/), it is important to avoid naming projects after built-in Python or Django components. In particular, this means names like django (which will conflict with Django itself) or test (which conflicts with a built-in Python package). 
 
-So, start the project with proper [name](https://docs.djangoproject.com/en/5.1/intro/tutorial01/#creating-a-project), for example:
+So, start the project with proper [name](https://docs.djangoproject.com/en/5.1/intro/tutorial01/#creating-a-project), such as **backend**, on the terminal at root **musicplayer/**:
 
 ```django-admin startproject backend```
-
-**useful**: git commit -m"starting django project with 'django-admin startproject backend'. This add . 6 new files: 1 on the root of new backend folder and 5 inside the new backend subfolder with the same name"
 
 Some files are created automatically. Now, the project's folder has new file struture and organisation:
 
 ```
-backend/
-    manage.py
-    mysite/
-        __init__.py
-        settings.py
-        urls.py
-        asgi.py
-        wsgi.py
+musicplayer/
+	backend/
+		manage.py
+		mysite/
+			__init__.py
+			settings.py
+			urls.py
+			asgi.py
+			wsgi.py
 ```
 
-The inner backend/ directory is the Python package for the project. Its name is the Python package name to use to import anything inside it (*e.g.*, mysite.urls)
+The inner backend/ directory is the Python package for the project. Its name is the Python package name to use to import anything inside it (*e.g.*, mysite.urls).
 
 The files descriptions and useful tools:
-	- **manage.py**: this script configures the Django environment by setting the environment variable DJANGO_SETTINGS_MODULE. In this case, the line os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings') specifies that Django should use the settings module located in backend/settings.py.
-	
-	The manage.py script imports the execute_from_command_line function from the django.core.management module, which is the main command that Django uses to execute any of its subcommands (such as runserver, migrate, makemigrations, createsuperuser, among others). When running a shell command like ```python manage.py runserver```, Django uses this manage.py script to configure the appropriate environment and then calls the function execute_from_command_line(sys.argv). This command processes the command-line arguments (sys.argv) and performs the corresponding task.
-	
-	Some of the most commonly used commands with manage.py include:
-		- python manage.py runserver: Starts Django’s development server.
-		- python manage.py migrate: Applies all pending database migrations.
-		- python manage.py makemigrations: Creates new migrations based on the changes made to Django models.
-		- python manage.py createsuperuser: Creates a superuser for accessing the admin panel.
-		- python manage.py startapp <app_name>: Creates a new Django application within the project.
 
-	- **mysite/__init__.py**: An empty file that tells Python that this directory should be considered a Python package.
-	- **mysite/settings.py**: Settings/configuration for this Django project. Django settings will tell you all about how settings work.
-	- **mysite/urls.py**: The URL declarations for this Django project; a “table of contents” of your Django-powered site.
-	- **mysite/asgi.py** and **mysite/wsgi.py**: An entry-point for ASGI-compatible web servers to serve your project.
-	
-The settings.py was created in this step and need modification. However, set the modifaction only after creating the app (step below), to avoid extra works afterwards (*e.g.,* change names of folders). This step of modification you find below on the best sequence (be patient!).
+- **manage.py**: this script configures the Django environment by setting the environment variable DJANGO_SETTINGS_MODULE. In this case, the line os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings') specifies that Django should use the settings module located in backend/settings.py.
+The manage.py script imports the execute_from_command_line function from the django.core.management module, which is the main command that Django uses to execute any of its subcommands (such as runserver, migrate, makemigrations, createsuperuser, among others). When running a shell command like ```python manage.py runserver```, Django uses this manage.py script to configure the appropriate environment and then calls the function execute_from_command_line(sys.argv). This command processes the command-line arguments (sys.argv) and performs the corresponding task.
+Some of the most commonly used commands with manage.py include:
+- ```python manage.py runserver```: Starts Django’s development server.
+- ```python manage.py makemigrations```: Creates new migrations based on the changes made to Django models.
+- ```python manage.py migrate```: Applies all pending database migrations.
+- ```python manage.py createsuperuser```: Creates a [superuser](https://docs.djangoproject.com/en/5.1/ref/contrib/admin/#module-django.contrib.admin) for accessing the admin panel.
+- ```python manage.py startapp <app_name>```: Creates a new Django application within the project.
 
+- **mysite/__init__.py**: An empty file that tells Python that this directory should be considered a Python package.
+- **mysite/settings.py**: Settings/configuration for this Django project. Django settings will tell you all about how settings work.
+- **mysite/urls.py**: The URL declarations for this Django project; a “table of contents” of your Django-powered site.
+- **mysite/asgi.py** and **mysite/wsgi.py**: An entry-point for ASGI-compatible web servers to serve your project.
+	
+The **settings.py** was created in this step and need modification. However, set the modifaction only after creating the app (step below), to avoid extra works afterwards (*e.g.,* change names of folders). This step of modification you find below on the best sequence ((Remember, it works as recipt and the sequence matter... like cooking :-)).
+
+Now the environment – a “project” – is set up and we can are set to start doing work.
+
+Don't forget to commit it! Remember the first 12 Factors?!... see README.md again. I help you:
+
+**useful**: git commit -m"starting django project with 'django-admin startproject backend'. This add . 6 new files: 1 on the root of new backend folder and 5 inside the new backend subfolder with the same name"
 
 ### APPs
-https://docs.djangoproject.com/en/5.1/intro/tutorial01/#creating-the-polls-app
 
-Now that your environment – a “project” – is set up, you’re set to start doing work.
+This are the steps about the [app](https://docs.djangoproject.com/en/5.1/intro/tutorial01/#creating-the-polls-app) itself.
 
-Each application you write in Django consists of a Python package that follows a certain convention. Django comes with a utility that automatically generates the basic directory structure of an app, so you can focus on writing code rather than creating directories.
-
-
-
+Each application in Django consists of a Python package that follows a certain convention. Django comes with a utility that automatically generates the basic directory structure of an app, so we can focus on writing code rather than creating directories.
 
 IMPORT TO BY INSIDE THE DJANGO ROOT FOLDER BY CREATING APPS!!! 
 AGAIN, THE MANES OF APPS PLAYS A ROLE (SEE TOPIC XXXX)
@@ -856,7 +855,7 @@ This file contains a form for updating existing songs in the music player. It re
 
 ## admin.py
 
-Here is the last step before deploy the Django's app!
+Here is the last step before deploying the Django's app!
 
 The **admin.py** files for both the **api** and **music_player_app** apps play a crucial role in managing the data models through the Django admin interface. They are responsible for registering models with Django's admin site, providing a user-friendly interface for performing CRUD operations on these models. This is directly related to the database, as each model represents a table in the database, and CRUD operations modify the data stored in these tables.
 | **App Folder**          | **Models Registered in admin.py**             |
@@ -910,9 +909,7 @@ Before deploying the Django project, review the settings in regards to security,
 
 Frist, [run check deploy](https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/#run-manage-py-check-deploy):
 
-```
-python manage.py check --deploy
-```
+```python manage.py check --deploy```
 
 Check and protect the environmental variables by setting the files [**backend/settings.py** and **.env**](https://docs.djangoproject.com/en/5.1/topics/settings/#django-settings). (dont' forget set .env on .gitingore and .dockerignore as well). Because a settings file contains sensitive information, such as the database password, you should make every attempt to limit access to it. For example, change its file permissions so that only you and your web server’s user can read it. This is especially important in a shared-hosting environment ([see Django's doc.](https://docs.djangoproject.com/en/5.1/topics/settings/#security)).
 
