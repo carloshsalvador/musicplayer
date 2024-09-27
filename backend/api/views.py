@@ -30,9 +30,11 @@ class AddSongFromSpotifyView(APIView):
                     song = Song(
                         title=item['name'],
                         artist=item['artists'][0]['name'],
-                        album=item['album']['name'],
-                        duration=item['duration_ms'] // 1000,
-                        spotify_id=item['id']
+                        album=item['album']['name'],                    # Ensure this field is available, when calling the funktion searchSpotify() at index.htm
+                        duration=item['duration_ms'] // 1000,           # Convert duration from milliseconds to seconds [the same as above regards to the searchSpotify() function]
+                        spotify_id=item['id'],                          # Ensure this field is available [the same as above regards to the searchSpotify() function]
+                        audio_file=item['preview_url'],                 # Ensure this field is available [the same as above regards to the searchSpotify() function]
+                        audio_img=item['album']['images'][0]['url']     # Ensure this field is available [the same as above regards to the searchSpotify() function]
                     )
                     song.save()
                 return Response({"message": "Songs added successfully"}, status=status.HTTP_201_CREATED)

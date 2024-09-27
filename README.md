@@ -2,7 +2,7 @@
 
 Music player app is a project of web application for the DHBW/WDS's WebDesign Course carried out by [Prof. Jürgen Toth](https://github.com/juergen1976) during the semeter 2./2024. It is a course for students who are facing this topic for the first time. Thus, the project's main goal was the development of a music player. 
 
-As an overview, this web application was developed based mainly on 2 frameworks, the [Django 5.1](https://www.djangoproject.com/) as backend and the [Vue.js](https://vuejs.org/) as frontend, and the data bank was [PostgreSQL](https://www.postgresql.org/) with music from [Deezer](https://www.deezer.com/en/). These elements are separted on [Dockercontainers](https://www.docker.com/).
+As an overview, this web application was developed based mainly on 2 frameworks, the [Django 5.1](https://www.djangoproject.com/) as backend and the [Vue.js](https://vuejs.org/) as frontend, and the data bank was [PostgreSQL](https://www.postgresql.org/) with music from [Spotify](https://open.spotify.com/). These elements are separted on [Dockercontainers](https://www.docker.com/).
 
 Therefore, there are 2 ways to check the musicplayer app after cloning this project:
 
@@ -281,8 +281,8 @@ Here starts the longest backbone of this project, such additional architeture an
 
 
 
-4. **Integration with Deezer**:
-   - **Function**: Fetches and plays music using the Deezer API.
+4. **Integration with Spotify**:
+   - **Function**: Fetches and plays music using the Spotify API.
    - **Configuration**: API keys stored in environment variables.
 
 7. **Container Orchestration (Docker Compose)**:

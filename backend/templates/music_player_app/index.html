@@ -38,27 +38,42 @@
 	<h2>Welcome, {{ user.username }}, it is a music player for test, enjoy!</h2>
 	<div class="container">
 	<div class="player">
-		<img style="width:250px; height:250px;"
-			src="https://th.bing.com/th/id/OIP.bLCU8HwL546JIVk9vLV3NAHaHa?rs=1&pid=ImgDetMain"
+		<img style="width:850px; height:250px;"
+			src="https://developer.spotify.com/images/documentation/web-api/auth_intro.png"			
 			alt id="audioPlayerimg" />
 		<br />
 		<audio id="audioPlayer" class="w-100" controls>Your browser does not support the audio element.</audio>
 	</div>
+
+	<!-- Search Song -->
+	<!-- 2 Fields+ start botton -->
+	<!-- 1st field: calls the function SearchSongs() for songs already on the data bank of user's profile-->
+	<!-- it was the frist implementation for testing, but not more useful after Search on Spotify (next botton). Kept only for memory-->
+	<!--
 	<label for="Search">Search Song:</label>
 	<input type="text" id="Search" placeholder="Enter song name" />
 	<button onclick="SearchSongs()">Search</button>
+	-->
+
+	<!-- 2nd field:  calls the function searchSpotify() for songs from Spotify via API-->
+	<label for="spotifySearch">Search Spotify:</label>
+	<input type="text" id="spotifySearch" placeholder="Enter song or artist name" />
+	<button onclick="searchSpotify()">Search</button>
+	<div id="spotifyResults"></div>
+
 	<ul id="playlist" class="list-group"></ul>
 	<button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#addSongModal"
 			onclick="AddSong()">Add Song</button>
 	
-	<!-- Logout Button here!!! but two version for memory-->
-	<!-- Logout Button 1: with method GET [JavaScript Logout()] = not useful in Django, because Django use method POST with formulary. It is implmented bellow-->
+	<!-- Logout Button here!!! two version for the same function-->
+	<!-- 1st Version: with method GET [JavaScript Logout()] = not useful in Django, because Django uses method POST with formulary. It is implmented bellow-->
+	<!-- keep it here for reference and memory -->
 	<!-- 
 	<button type="button" class="btnlogout btn btn-danger mt-3" data-toggle="modal"
 			data-target="#addSongModal" onclick="Logout()">Logout</button>
 	-->
-	<!-- Logout Button 2: with method POST [formulary] = useful in Django, because Django use method POST with formulary. -->
-	<!-- {% csrf_token %} implements a CSRF token, which is required to protect against CSRF (Cross-Site Request Forgery) attacks. Django default.-->
+	<!-- 2nd Version: with method POST [formulary] = useful in Django, because Django use method POST with formulary. -->
+	<!-- {% csrf_token %} implements a Cross-Site Request Forgery (CSRF) token, which is required to protect against CSRF attacks. Django default.-->
 	<form method="post" action="{% url 'logout' %}" style="display:inline;">
 		{% csrf_token %}
 		<button type="submit" class="btn btn-danger mt-3">Logout</button>
@@ -126,54 +141,42 @@ if (confirm('Are you sure you want to delete this song?')) {
 }
 
 function AddSong() {
-window.location.href = `/AddSong`;
+window.location.href = `/add-song/`;
 }
 
 function UpdateSong(itemId) {
-window.location.href = `/UpdateSong/${itemId}`;
+window.location.href = `/update-song/${itemId}`;
 }
 
 function Logout(itemId) {
 window.location.href = `/logout/`;
 }
-function SearchSongs() {
-const SearchSong = document.getElementById('Search').value.toLowerCase();
-// Saavn API endpoint for searching songs
-const saavnSearchUrl = 'https://saavn.me/search/songs';
 
-// Query parameters for the search
-const params = {
-	query: SearchSong,
-};
-
-// Request headers
-const headers = {
-	'Content-Type': 'application/json',
-};
-
-// Make the GET request to search for songs
-fetch(`${saavnSearchUrl}?${new URLSearchParams(params)}`, {
-	method: 'GET',
-	headers: headers,
-})
-	.then(response => response.json())
-	.then(songData => {
-		playlist.innerHTML = '';
-		for (const song of songData.data.results) {
-			const songName = song.name;
-			const artistName = song.primaryArtists;
-			const highestQualityDownloadUrl = song.downloadUrl.find(downloadUrl => downloadUrl.quality === '320kbps');
-			const image150x150 = song.image.find(image => image.quality === '150x150');
-			const lowestQualityImage = song.image.find(image => image.quality === '50x50');
-			playlist.innerHTML += `<li class="list-group-item" onclick="playSong('${highestQualityDownloadUrl.link}','${image150x150.link}')"><span>
-			<img src="${lowestQualityImage.link}">
-			${songName} by ${artistName}</span>
-			</li>`;
-		}
-	})
-	.catch(error => console.error('Error:', error));
-
+// SPOTIFY API + SEARCH:
+function searchSpotify() {
+    const query = document.getElementById('spotifySearch').value;
+    fetch('/api/add-song-from-spotify/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body: JSON.stringify({ query: query }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            document.getElementById('spotifyResults').innerText = data.message;
+            fetchSongs(); // Update the song list
+        } else if (data.error) {
+            document.getElementById('spotifyResults').innerText = data.error;
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
+
 	</script>
 </body>
 </html>

@@ -312,14 +312,22 @@ api/urls.py : below code sets up Django URL patterns for song listing/creation a
 
 The SongListCreateView and SongDetailView classes are using the Django REST Framework's generic views (generics.ListCreateAPIView and generics.RetrieveUpdateDestroyAPIView), which are suitable for basic CRUD operations.
 
+##### api/urls.py
+
+api/urls.py : below code sets up Django URL patterns for song listing/creation, song detail, and adding songs from Spotify using “SongListCreateView”, “SongDetailView”, and “AddSongFromSpotifyView” views, respectively.
+
+The SongListCreateView and SongDetailView classes are using the Django REST Framework's generic views (generics.ListCreateAPIView and generics.RetrieveUpdateDestroyAPIView), which are suitable for basic CRUD operations.
+
+
 ```
 # api/urls.py
 from django.urls import path
-from .views import SongListCreateView, SongDetailView
- 
+from .views import SongListCreateView, SongDetailView, AddSongFromSpotifyView 
+
 urlpatterns = [
-    path(' ', SongListCreateView.as_view(), name='song-list-create'),
-    path('songs/<int:pk>/', SongDetailView.as_view(), name='song-detail'),
+	path('songs/', SongListCreateView.as_view(), name='song-list-create'), # '/' can avoid conflicts with other URLs, the same for all other URLs, here and other files (e.g., music_player_app/urls.py)
+	path('songs/<int:pk>/', SongDetailView.as_view(), name='song-detail'),
+    path('add-song-from-spotify/', AddSongFromSpotifyView.as_view(), name='add-song-from-spotify'),
 ]
 ```
 
