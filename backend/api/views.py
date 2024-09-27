@@ -37,5 +37,5 @@ class AddSongFromSpotifyView(APIView):
                         audio_img=item['album']['images'][0]['url']     # Ensure this field is available [the same as above regards to the searchSpotify() function]
                     )
                     song.save()
-                return Response({"message": "Songs added successfully"}, status=status.HTTP_201_CREATED)
-        return Response({"error": "Query parameter is required"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"message": "Songs added successfully (see play list below!)"}, status=status.HTTP_201_CREATED)
+        return Response({"error": "check backend/api/views.py"}, status=status.HTTP_400_BAD_REQUEST)
