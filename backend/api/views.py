@@ -52,4 +52,4 @@ class AddSongFromSpotifyView(APIView):
                         )
                         song.save()
                 return Response({"message": "Songs added successfully (see play list below!)"}, status=status.HTTP_201_CREATED)
-        return Response({"error": "check backend/api/views.py"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "No Spotify's api available or technical problem: repete search with new input or check backend/api/views.py"}, status=status.HTTP_400_BAD_REQUEST)
