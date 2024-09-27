@@ -4,6 +4,8 @@ The file README.md is the part I to develop a web application of music player. T
 
 Here on the other hand is the part II for the specific description of programation's steps with some explanation about the step itself, but not the context.
 
+In this documment is also possible to see the frist version of scripts, especially the .html to start the project. Thus, their are more simple than the cloned version, because they were modified during the development of the project and fixing problems.
+
 # STEPS AS CONTENT
 
 This app was developed basically with 8 steps. 
@@ -32,9 +34,9 @@ Terefore, the general steps below works as an overview and the content of this d
 6. **Hosting on Back4App**:
 	- Deploy backend and database services on Back4App linked to GitHub for systematically deplyments.
 7. **Frontend with Tailwind CSS**:
-	- developement of user interface. 
+	- developement of user interface. [not implemented yet]
 8. **Frontend Development with Vue.js**:
-	- more development of the user interface and use of CSS from Tailwind.
+	- more development of the user interface and use of CSS from Tailwind. [not implemented yet]
 
 ## DJANGO PROJECT: START
 
@@ -104,27 +106,14 @@ This are the steps about the [app](https://docs.djangoproject.com/en/5.1/intro/t
 
 Each application in Django consists of a Python package that follows a certain convention. Django comes with a utility that automatically generates the basic directory structure of an app, so we can focus on writing code rather than creating directories.
 
-IMPORT TO BY INSIDE THE DJANGO ROOT FOLDER BY CREATING APPS!!! 
-AGAIN, THE MANES OF APPS PLAYS A ROLE (SEE TOPIC XXXX)
-
-...so go to the django root...
-(venv) PS D:\CAIQUE\DataScience\WDS23_2_WebDesign\musicplayer> cd backend
-
-
-
-... start the apps ...
-
-this project requires at least 2 apps:
-
-
-
-(venv) PS D:\CAIQUE\DataScience\WDS23_2_WebDesign\musicplayer\backend> python manage.py startapp api
-(venv) PS D:\CAIQUE\DataScience\WDS23_2_WebDesign\musicplayer\backend> python manage.py startapp music_player_app
+So, at the terminal, at project root, the next commands are:
+1. ```cd backend```
+2. ```python manage.py startapp api```
+3. ```python manage.py startapp music_player_app```
 
 **useful**: git commit -m"2 apps created with 'python manage.py start app ...' (api and music_player). this stepe create tow folder with 8 files each, total of 16 new files"
 
-
-#### project's scripts modification
+#### project's scripts
 
 ##### project/project/settings.py
 
@@ -145,67 +134,13 @@ INSTALLED_APPS = [
 **useful**: git commit -m "setting  the file backend/settings.py with INSTALLED_APPS=[..,music_player, api, rest_framework] variable."
 
 
-Take the oportunity and generate and update the secrete key:
-
-
-
 #### apps' script modification
 
-This step basically sets the Classes and Models on .py files used for each app. It is a cascate of settings: it starts with **models.py** implementation for each apps' Classes and Models and then implement them afterwards on different files:
-- 
+This step basically sets the Classes and Models on .py files used for each app. It is a cascate of settings: it starts with **models.py** implementation for each apps' Classes and Models and then implement them afterwards on different files.
 
 ##### models.py
 
 ###### APP: api
-
-Por que se chama "model" ao invés de "classe"?
-No Django, o termo "model" (ou modelo, em português) é usado para se referir a uma classe Python que define a estrutura de um objeto de dados que será armazenado no banco de dados. Apesar de um modelo ser uma classe Python, no contexto do Django e de muitos frameworks de desenvolvimento, o termo "model" é usado para diferenciar a ideia de que essa classe específica é usada para modelar dados e interagir diretamente com um banco de dados.
-
-
-Entendendo o Código do api/models.py
-O código que você forneceu define um modelo Django chamado Song. Este modelo representa uma música e inclui vários campos para armazenar informações relacionadas à música, como título, categoria, artista, arquivo de áudio e imagem do áudio. Aqui está uma explicação detalhada de cada parte do código:
-
-python
-Copy code
-from django.db import models
-
-class Song(models.Model):
-    id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=100)
-    categorie = models.CharField(max_length=100, null=True, default=None)
-    artist = models.CharField(max_length=100)
-    audio_file = models.FileField(upload_to='audio/')
-    audio_img = models.FileField(upload_to='audio_img/')
-
-    def __str__(self):
-        return self.title
-Detalhes dos Campos do Modelo Song
-id = models.AutoField(primary_key=True):
-
-Este campo cria um identificador único (id) para cada música. AutoField é um campo de incremento automático que cria IDs únicos para cada instância de Song. O parâmetro primary_key=True indica que este campo é a chave primária do modelo.
-title = models.CharField(max_length=100):
-
-Campo de texto para armazenar o título da música. CharField é usado para campos de texto curtos e o parâmetro max_length especifica o número máximo de caracteres permitidos (neste caso, 100).
-categorie = models.CharField(max_length=100, null=True, default=None):
-
-Campo opcional de texto para armazenar a categoria da música. null=True permite que o campo armazene valores NULL no banco de dados, e default=None define o valor padrão como None se nenhum valor for fornecido.
-artist = models.CharField(max_length=100):
-
-Campo de texto para armazenar o nome do artista da música. Assim como title, ele utiliza CharField com um limite de 100 caracteres.
-audio_file = models.FileField(upload_to='audio/'):
-
-Campo para armazenar o arquivo de áudio da música. FileField é utilizado para fazer upload de arquivos. O parâmetro upload_to='audio/' especifica que os arquivos de áudio serão armazenados na pasta audio/ dentro do diretório de uploads configurado para o projeto.
-audio_img = models.FileField(upload_to='audio_img/'):
-
-Campo para armazenar a imagem associada à música. FileField também é usado aqui, e upload_to='audio_img/' define que as imagens serão armazenadas na pasta audio_img/.
-def __str__(self): return self.title:
-
-O método __str__ define a representação de string do modelo Song. Isso é útil quando você está visualizando instâncias do modelo no shell do Django ou no painel administrativo. Neste caso, ele retorna o título da música.
-
-
-
-
-
 ```
 # api/models.py
 from django.db import models
@@ -254,8 +189,7 @@ class CustomUser(AbstractUser):
 
 **useful**: git commit -m "setting views.py for music_player_app. For testing I did also python manage.py migrate and python mandage runserver; this create more files automaticlly such as the subfoler api/__pycach__ and api/migrations as well as in music_player_app."
 
-
-be aware that music_player_app/views.py uses folder name music_player_app.... if it is not right name, change it!
+obs: Be aware that music_player_app/views.py uses folder name music_player_app.... if it is not right name, change it!
 
 #### api/serializers.py
 
@@ -274,10 +208,6 @@ class SongSerializer(serializers.ModelSerializer):
 
 
 **useful**: git commit -m "create and set a new file for api/serializers.py with code to define a Django Rest Framework serializer, 'SongSerializer', using the model 'Song' and including all fields for serialization. This information was also updated on Readme."
-
-
-
-
 
 ##### music_player_app/forms.py
 
@@ -923,11 +853,12 @@ admin.site.register(CustomUser, UserAdmin)
 
 **useful**: git commit -m "create and update the admin.py files at api and music_player_app folder each. They are the last step before migration and deploy Django app"
 
-# DATABASE
+# Database
+
+After all implementation above, 2 important step was done in regards to data bank: implementation of Spotify search and PostgreSQL. See the file backend/spotify.py with comments there. The PostgreSQL was implement basically on seetings.py using the Djangos' APIs, but also keeping the default SQLite for the development modus (DEBUG=True) for quick and easier tests.
 
 
-
-## Deployment checklist
+# Deployment checklist
 
 Before deploying the Django project, review the settings in regards to security, performance, and operations ([doc](https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/)).
 
@@ -943,16 +874,11 @@ echo .env > .gitignore
 echo .env > .dockerignore
 ``` 
 
-
-
-
 ### backend/settings.py ([doc](https://docs.djangoproject.com/en/5.1/topics/settings/#django-settings))
-
-
 
 ### .env
 
-Set a all environmental variables here such the secret key.
+.env has all environmental variables such the secret key.
 
 For the Django´s secrete key, make on stronge one with some tools such as:
 
@@ -967,42 +893,7 @@ Update **requirements.txt**.
 
 ```pip freeze > requirements.txt```
 
-### File organization
-
-Just check the essential structure:
-
-```
-musicplayer/
-│
-├── .gitignore
-├── .env
-├── env/
-└── backend/
-    ├── manage.py
-    ├── backend/
-    │   ├── settings.py
-    │   ├── urls.py
-    │   └── ...
-    ├── api/
-    │   ├── admin.py
-    │   ├── models.py
-    │   └── ...
-    ├── music_player_app/
-    │   ├── admin.py
-    │   ├── models.py
-    │   └── ...
-    └── templates/
-        └── music_player_app/
-            ├── base.html
-            ├── homepage.html
-            ├── player.html
-            └── ...
-
-```
-
-
-
-## Migration & Deploy
+# Migration & Deploy
 
 Again, just in case, it is a matter of security: [run check deploy](https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/#run-manage-py-check-deploy):
 
@@ -1016,29 +907,9 @@ Finally, run the Migration's commands and deploy Django. This is enought, but ch
 ```python manage.py migrate```
 ```python manage.py runserver```
 
-Now that the server’s running, visit http://127.0.0.1:8000/ with your web browser ([Django's doc.](https://docs.djangoproject.com/en/5.1/intro/tutorial01/#the-development-server)).
+Now that the server’s running, visit http://127.0.0.1:8000/ on the web browser ([Django's doc.](https://docs.djangoproject.com/en/5.1/intro/tutorial01/#the-development-server)).
 
-# 2.1 DATABASE
-
-Changing Django's deault databank (SQLlight) to PostSQL.
-
-1. File .env:
-
-
-
-2. File backend/settings.py:
-
-remove:
-
-add:
-
-
-
-PostgreSQL Container: Este container usa uma imagem oficial do PostgreSQL fornecida pelo Docker Hub. Ele é totalmente separado da imagem do Django e é configurado apenas para executar o servidor PostgreSQL.
-
-
-
-# 3. **Creating and run Docker Image**:
+# **Docker**
 
 Until here there is only one dockerfile to buil the docker image and wouldn't be necessary to use the **docker-compose.yml** now, but it is interesting for build the image due to the files structure such **.env** and **.dockerignore** at the main root, out of the backend directory instead. This procedure make also easier to set tags for the containers' name by setting then inside the docker-compose.yml instead of in each ```docker build --tag...```. 
 
@@ -1065,21 +936,3 @@ Kinds of possible problems during the creation of containers with docker-compose
 ```curl -o backend/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh```
 
 ```chmod +x backend/wait-for-it.sh```
-
-# 4. **Container Orchestration with Docker Compose**:
-   - **Function**: Orchestrates multiple Docker containers.
-   - **Configuration**: `docker-compose.yml` file to define and manage services.
-
-
-
-# 5. **Hosting on Back4App**:
-   - **Function**: Manages backend and database services.
-   - **Configuration**: Deploy backend and database services on Back4App.
-
-# 6. **Frontend with Tailwind CSS**:
-   - **Function**: Manages the user interface.
-   - **Configuration**: Import and configure Tailwind CSS in the project.
-
-# 7. **Frontend Development with Vue.js**:
-   - **Function**: Develops the user interface.
-   - **Configuration**: Create Vue.js components and use Tailwind CSS classes.

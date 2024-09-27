@@ -31,5 +31,16 @@ services:
     env_file:
       - .env  # Loads environment variables for the PostgreSQL service
 
+  # CONTAINER FOR NGINX (based on official image):
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - web
+
 volumes:
   postgres_data:  # postgres_data was definied above, by db/service/volumes. Here it defines a named volume for storing PostgreSQL data persistently, which will be not deleted when the container is removed.

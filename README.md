@@ -4,26 +4,25 @@ Music player app is a project of web application for the DHBW/WDS's WebDesign Co
 
 As an overview, this web application was developed based mainly on 2 frameworks, the [Django 5.1](https://www.djangoproject.com/) as backend and the [Vue.js](https://vuejs.org/) as frontend, and the data bank was [PostgreSQL](https://www.postgresql.org/) with music from [Spotify](https://open.spotify.com/). These elements are separted on [Dockercontainers](https://www.docker.com/).
 
-Therefore, there are 2 ways to check the musicplayer app after cloning this project:
+Therefore, there are 3 ways to check the musicplayer app after cloning this project:
 
 1. **development modus**
 
-   This is the version by cloning the project and is the quicker and easier way to see the app runing. The steps are:
+   This is quicker and easier way to see the app runing. After cloning, the steps are:
 
       1. install all dependecies based on **musicplayer/requirements.txt**
       2. create and set a new file **musicplayer/.env** based on the **musicplayer/.env_example**.
+         1. set here the private [Spotify credencials](https://developer.spotify.com/).
+         - the credencial for this project will be sent to the Professor.
       3. on terminal, at root **musicplayer/**, execute:
-
-         ```python manage.py makemigrations```
-
-         ```python manage.py migrate```
-
-         ```python manage.py runserver```
+         1. ```python manage.py makemigrations```
+         2. ```python manage.py migrate```
+         3. ```python manage.py runserver```
       4. on browser, test the app at http://127.0.0.1:8000/
 
-      - OBS: in this modus, the data bank is the Django's default [SQLite](https://www.sqlite.org/), not [PostgreSQL](https://www.postgresql.org/), developed for the production modus (below).
+      - OBS: this modus is more simple! The data bank is the Django's default [SQLite](https://www.sqlite.org/), not [PostgreSQL](https://www.postgresql.org/) developed for the production modus (below) and the frontend is [Bootstrap](https://getbootstrap.com/).
 
-2. **production modus**:
+2. **production modus** (not full implemented yet):
 
    1. install all dependecies based on **musicplayer/requirements.txt**
    2. create and set a new file **musicplayer/.env** based on the **musicplayer/.env_example**.
@@ -31,20 +30,19 @@ Therefore, there are 2 ways to check the musicplayer app after cloning this proj
    3. create and run the Dockercontainers based on the file **musicplayer/docker-compose.yml** using the terminal at root **musicplayer/** with the following commands:
       1. ```docker-compose build ```
       2. ```docker-compose up ```
-   4. run the app inside the container:
-      1. ```docker-compose ex ```
-      2. ```docker-compose up `
+   4. get in the container
+      1. ```docker-compose exec web /bin/bash```
+      2. ... and run the app from there:
+         1. ```python manage.py makemigrations```
+         2. ```python manage.py migrate```
+         3. ```exit```
+   5. on browser, test the app at  http://localhost
+      - obs: due to the proxy revers with Ngnix, dont' need start Django server with ```python manage.py runserver```
 
-   3. on terminal, at root **musicplayer/**, execute:
+3. **deployment modus** (not full implemented yet): as a [CaaS at Back4app](https://musicplayer-bw3lchlg.b4a.run/)
 
-      ```python manage.py makemigrations```
 
-      ```python manage.py migrate```
-
-      ```python manage.py runserver```
-   4. on browser, test the app at http://127.0.0.1:8000/
-
-Since the begning, this project has tried to follow as much as possible the Adams Wiggins's [12 factors](https://12factor.net/), such as easy code's sharing, backing service and security. Some guidlines of this methodology make no much sense for this project, such as escalability and demands for team work because it is a individual project, but they were implemented anyway as best practice and learning by developing a web application for the frist time.
+The devolepment of this project has tried to follow as much as possible the Adams Wiggins's [12 factors](https://12factor.net/), such as easy code's sharing, backing service and security. Some guidlines of this methodology make no much sense for this project, such as escalability and demands for team work because it is a individual project, but they were implemented anyway as best practice and learning by developing a web application for the frist time.
 
 In this **README.md** the readers can find below the context, dependencies, architecture and infrasctructure and how the app was planed. However, **DETAILED_DOCUMENTATION.md** was developed as a recipt step-by-step for my memory of this project, with detailed description of the development sequence, *i.e.*, the explanation about the steps itself, but not the context.
 
@@ -60,14 +58,14 @@ Here I share my frist decisions I have faced before starting, my literature revi
 It is my frist app and many new topics needed to be decided and understand before strating.
 
 The topics I have faced on the begining were:
- - general stetps for any app - how to start and how to finish it.
- - two colossal topics: frontend and backend.
- - diveristy of programming languages and frameworks.
- - architecture and infrastructure: api, server, data bank, load balance, caching, security, PaaS, CaaS etc.
+   - two colossal topics: frontend and backend.
+   - general stetps for any app: how to start and how to finish it?
+   - diveristy of programming languages and frameworks.
+   - architecture and infrastructure: api, server, data bank, load balance, caching, security, PaaS, CaaS etc.
 
 ## Frontend & Backend and the Framework
 
-A music player app requires more elemente for the user experience ([UX](https://en.wikipedia.org/wiki/User_experience)) because they interacts much more dynamically rewriting the current web page with new data from the web server by searching music and different states like play and stop, instead of the more traditional method of loading entire new pages (or static web page) after any user's requires (~ user's clicks). The important key here was to understand the implications of the search engine optimization ([SEO](https://moz.com/learn/seo/what-is-seo)) to imporve the quality and quantity of website traffic and the choice of the modern types of aplications for projects like this, such as the Simple-Page-Aplication ([SAP](https://en.wikipedia.org/wiki/Single-page_application)) for faster transitions that make the website's feelings more like a native app. 
+A music player app requires more elemente for the user experience ([UX](https://en.wikipedia.org/wiki/User_experience)) than a static one because they interacts much more dynamically rewriting the current web page with new data from the web server by searching music and different states like play and stop, instead of the more traditional method of loading entire new pages (or static web page) after any user's requires (~ user's clicks). The important key here was to understand the implications of the search engine optimization ([SEO](https://moz.com/learn/seo/what-is-seo)) to imporve the quality and quantity of website traffic and the choice of the modern types of aplications for projects like this, such as the Simple-Page-Aplication ([SAP](https://en.wikipedia.org/wiki/Single-page_application)) for faster transitions that make the website's feelings more like a native app. 
 
 Therefore, the music app as a dynamic websites had be more efficent by server-side programming with frameworks that allow create dynamic websites and deliver customized information in response to HTTP requests ([Mozilla Devs](https://developer.mozilla.org/en-US/docs/Learn/Server-side)).
 
@@ -82,7 +80,7 @@ In this project I opted for [Vue.js](https://vuejs.org/) for any special reason 
 
 Nevertheless, they are frameworks for frontend, good for management the user interface (UI) and handle client-side demands. This project rather requirs a backend's framework for more robust development such object relational mapping ([ORM](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping)), data bank interaction and APIs, authentification and security ([examples](https://www.gyata.ai/python/orm-object-relational-mapping#advanced-orm-concepts-in-django)). The ORM of Django framework for example provides a high-level, Pythonic abstraction for database management, making it easier to work with databases ([Django ORM](https://www.lycore.com/blog/django-orm-a-guide-to-database-management-in-django/)).
 
-For the backend framework the tendecy was to opt for one based on programing language I had experience before such as python, javascript and R. The points I have considered for the framework's choice was then based on mainly the programe language that I had to use:
+For the backend framework the tendecy was to choose one based on programing language I had experience before such as python, javascript and R. The points I have considered for the framework's choice was then based on mainly the programe language that I had to use during the development phase:
 - Python with [Django](https://www.djangoproject.com/) framework was the most interseting one to me due to my former experience, to the rich and powerfull libraries for web developement and to a great oportunity to use a second language in this project without great effort. About libraries and tools for example, [Joy](https://pythonistaplanet.com/advantages-of-django/) has pointed out 11 advantages such tools for security login, ORM and SEO and a interesting MVT:
 
 <img src='https://cdn-0.pythonistaplanet.com/wp-content/uploads/2020/02/Django_MVT-1-683x1024.jpg?ezimgfmt=ng:webp/ngcb19' alt="Django's Model View Template (MVT) Architecture" title="Django's Model View Template (MVT) Architecture">
@@ -91,7 +89,7 @@ For the backend framework the tendecy was to opt for one based on programing lan
 - [R](https://cran.r-project.org/) is very limited language for web programetion with poor libraries and it would'n be a good option for this project.
 - [PHP](https://www.php.net/) was also discarted due to lack of experience. The visual similarity of sintax with javascript was not so much atractive to choose a third programing language in this beginner's project. It was also important, as a frist app, to keep simplicity and to concentrate on other parts of web development for more effective learning process and 3 programing languages increase the complexty.
 
-Some tutorials was also considered to check the frameworks' aprouch with music apps and dynamics website for final decision:
+Some tutorials was also considered to check the backend frameworks' aprouch for music apps and dynamics website before the final decision:
  - Node.js at [Geeks for Geeks](https://www.geeksforgeeks.org/music-player-app-with-next-js-and-api/)
  - Vue.js at [Geeks for Geeks](https://www.geeksforgeeks.org/build-a-music-app-using-vuejs/?ref=oin_asr7)
  - Django at [Geeks for Geeks](https://www.geeksforgeeks.org/music-player-using-django/)
@@ -129,7 +127,7 @@ Expected file and scripts organization with frontend framework only (first figur
 
 <figure>
     <img src='https://media.geeksforgeeks.org/wp-content/uploads/20240201120202/file.png' alt='Example of file and scripts organization' title='Example of file and scripts organization'>
-    <figcaption>Example of file and scripts organization with both front and backend's framework<a href='https://www.geeksforgeeks.org/music-player-using-django/'> [Font]</a></figcaption>
+    <figcaption>Example of file and scripts organization with both front- and backend's framework<a href='https://www.geeksforgeeks.org/music-player-using-django/'> [Font]</a></figcaption>
 </figure>
 
 ## 12 Factors in Practice and the infrascructure from PaaS to CaaS
@@ -145,13 +143,13 @@ Nevertheless, Heroku has unfortunatly canceled its free service since 2022 ([Koy
 - [Reddit forum](https://www.reddit.com/r/rails/comments/155mx7r/heroku_alternative/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button): last post: 1 year. Much more then 3 alternativ.
 - [Medium posts](https://medium.com/dictcp/top-6-heroku-alternative-drop-in-replacement-in-2022-ff456fe050e4): updated (<10 months). 6 Alternatives.
 
-Some Heroku's alternativ considered with more details for checking were:
+Some Heroku's alternativ considered to check with more details were:
 - [Back4app](https://www.back4app.com/)
 - [Vercel](https://vercel.com/)
 - Kubernets and Dockercontainers
 - Complet cloud services such as Google App Engine, AWS and Microsoft's Azure.
 
-The final decision was the Back4app as PaaS to host all application because it works very similar to Heroku linked with GitHub and has a interesting [documentation](https://blog.back4app.com/how-to-deploy-a-django-application/) to deploy Django's apps. The **Container as a Service (CaaS)** is the Back4app's plataforme version linked to GitHub and Dockercontainer, similar to Heroku.
+The final decision was the **Back4app** as PaaS to host all application because it works very similar to Heroku linked with GitHub and has a interesting [documentation](https://blog.back4app.com/how-to-deploy-a-django-application/) to deploy Django's apps. The **Container as a Service (CaaS)** is the Back4app's plataforme version linked to GitHub and Dockercontainer, very similar to Heroku.
 
 Vercel is a serverless platform with support for 35+ frontend frameworks and it would work better for static webpage, but not so well for this project of music player as a dynamic one. Moreover, it does not support running docker instances ([Verscel](https://vercel.com/guides/does-vercel-support-docker-deployments)).
 
@@ -168,49 +166,66 @@ The detailed descriptions with codes and explanations are provided in another do
 
    1. Git and GitHub
    2. Django and PostSQL
-   3. Docker
-   4. Back4app
-   5. Tailwind
-   6. Vue.js
+   3. Spotify
+   4. Docker
+   5. Back4app
+   6. Tailwind
+   7. Vue.js
 
 ## File organization
 
 After the steps above, the expected file organization is:
 
-musicplayer/
+```
+mymusicplayer/
 ├── backend/
 │   ├── Dockerfile
-│   ├── requirements.txt
 │   ├── manage.py
-│   ├── musicplayer/
-│   └── ...Django and PostSQL files
+│   ├── mymusicplayer/
+│   │   ├── __init__.py
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   ├── wsgi.py
+│   ├── music/
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── models.py
+│   │   ├── views.py
+│   │   ├── urls.py
+│   │   ├── migrations/
+│   │   └── templates/
 ├── frontend/
 │   ├── Dockerfile
 │   ├── package.json
-│   └── ... Vue.js files
-├── .gitignore
-├── .env
+│   ├── public/
+│   ├── src/
+│   │   ├── App.vue
+│   │   ├── main.js
 ├── docker-compose.yml
-└── ... 
+├── .gitignore
+└── README.md
+```
 
 
 ## Architecture and Infrasctructure
 
-Version of control belongs to the Workflow of any project. The key information for this stepe is already declared at README. Other steps are more specific and implement in this order:
-   1. Git and GitHub
-
-   .ignore
-   .env
-   venv... python... requirements.txt
-
 **File Configurations:**
 
-1. **`.gitignore`**: Located in the root directory (`musicplayer/.gitignore`) to exclude non-versioned files such as `venv`, `*.pyc`, `*.log`, and `.env`.
+   **.gitignore**: on the root directory (`musicplayer/`) to exclude non-versioned files such as `venv`, `*.pyc`, `*.log`, and `.env`.
 
-2. **`requirements.txt`**: frist in the main directory because is the base for virutal environmental and others python projects, not only Django (for instance). Later, at the Docker's step, just a copy to other python´s project such a Django, *i.e.* the backend directory (`musicplayer/backend/requirements.txt`), because the `Dockerfile` in such context should copy this file as follows:
-   ```COPY requirements.txt requirements.txt``` (see Docker's step below)
+   **.env**: stores all environment variables, *i.e.* they are not saved direct on the scripts. The env.var. are loaded when needed by runing the scripts with functions such as `os.getenv()`. [see the example above for **backend/settings.py**]. 
 
-1. **Backend (Django)**:
+   **.env_example** is the reference file of .env without the private and security information. All users have to set their own .env. 
+            
+   **.dockerignore**: on the root directory under Docker control for Dockercompose or similar (*e.g.*, Heroku's Procfile). It defines files and directories that Docker should ignore. For security reasons, .env must be set here. This file is normally not considered on recomendations (*e.g.*, [Thompson, 2023](https://www.makeuseof.com/django-secret-key-generate-new/)), but the logic is the same for .gitignore.
+
+   **requirements.txt**: originaly in the main directory because is the base for virutal environmental and others python projects, not only Django (for instance). Later, at the Docker's step, the file was copied and pasted to other folders such a Django, *i.e.* the backend directory (`musicplayer/backend/requirements.txt`), because the `Dockerfile` in such context should copy this file as follows:
+      ```COPY requirements.txt requirements.txt``` (see Docker's step below)
+
+   **nginx.conf**: file to control the load balance on production modus for proxy reverse. It is not full implemented yet, still at work. It also requires implementaion on ```docker-compose.yml``` (see comments there).
+
+**Backend (Django)**
 
 Here starts the longest backbone of this project, such additional architeture and security, such RESTful API.
 
@@ -260,130 +275,44 @@ Here starts the longest backbone of this project, such additional architeture an
 
          - `SECURE_HSTS_INCLUDE_SUBDOMAINS = True`   # SecurityMiddleware will add the includeSubDomains directive to the Strict-Transport-Security header if True [= assuming all subdomains are served exclusively using HTTPS], otherwise the site may still be vulnerable via an insecure connection to a subdomain.
 
-      The extra proceeds for the project' security is to set at least 2 addional files that doesn't come with Django ([Thompson, 2023](https://www.makeuseof.com/django-secret-key-generate-new/)):
+**Spotify**:
 
-         - **.env**: stores all environment variables, *i.e.* they are not saved direct on the scripts. The env.var. are loaded when needed by runing the scripts with functions such as `os.getenv()`. [see the example above for **backend/settings.py**]
-         
-         - **.gitingore**: on the root directory under Git control. It files and directories that Git should ignore. For security reasons, .env must be set here.
-         
-         - **.dockerignore**: on the root directory under Docker control for Dockercompose or similar (e.g., Heroku's Procfile). It defines files and directories that Docker should ignore. For security reasons, .env must be set here. This file is normally not considered on recomendations (*e.g.*, [Thompson, 2023](https://www.makeuseof.com/django-secret-key-generate-new/)), but the logic is the same for .gitignore.
+After the basic backend was implemented, the app was create to have the [Web API](https://developer.spotify.com/documentation/web-api) and Django's files were changed to have the funcionalities, specially search and retrieve data from Spotify content such as tiles, artist, album or show.
 
-   1. 4. **Database (PostgreSQL)**:
-   - **Function**: Stores application data.
-   - **Container**: Docker container for the PostgreSQL database.
+**Containers and Orchestration**
 
+Containers are the requirement to deploy at Back4app.com and to work similar to Heroku. For this reason this step come before the deployment at Back4app. The project has aimed at least 4 containers separted (Django, PostgreSQL, NGINX and Vue.js) as a simulation of independent servers for scalability and facility to work with different teams of developers. The best way to manage the independent containers was the Docker-compose service. It orchestrates multiple Dockerfiles with `docker-compose.yml` file at the root of this project. The Dockerfiles theirself are found at each respectiv subfolder.
 
-2. **Frontend (Vue.js)**:
-   - **Function**: Manages the user interface.
-   - **Container**: Docker container for the Vue.js development server.
-   - **Design**: Implement responsive web design principles.
-   - **CSS Framework**: Use Tailwind CSS for styling.
+**Deployment**
 
+Similar to Spotify, Back4app requires also to create an app and then to have a DNS address. There is also a [tutorial](https://blog.back4app.com/how-to-deploy-a-django-application/) for Django's deployment. 
 
+The service use the Dockerfiles to deploy the app at the Back4app's server. This proceed was carried out and the app had the [url](https://musicplayer-bw3lchlg.b4a.run/). After that, it was possible to set the comunication among the containers in Django project. However, this proceed was not fully complete due to the RAM limitation for free version accounts (256MB of RAM). I see possibilities to advance and to reduce the memory use, but there were no more time to finish this project in time. I gave up this proceed to respect the semester's deadline.
 
-4. **Integration with Spotify**:
-   - **Function**: Fetches and plays music using the Spotify API.
-   - **Configuration**: API keys stored in environment variables.
+**Frontend**
 
-7. **Container Orchestration (Docker Compose)**:
-   - **Function**: Orchestrates multiple Docker containers.
-   - **Configuration**: `docker-compose.yml` file to define and manage services.
-
-8. **Hosting (Back4App)**:
-   - **Function**: Manages backend and database services.
-   - **Configuration**: Deploy backend and database services on Back4App.
-
-### Additional Notes
-
-- **Django REST Framework**: Necessary for creating RESTful APIs in Django.
-- **Environment Variables**: Store sensitive information like API keys and database credentials securely.
-- **CSS Framework**: Use Tailwind CSS for consistent and responsive design.
-
-### Important Files
-
-
-
-
-# xxxx
-
-For Back4app there is a [tutorial](https://blog.back4app.com/how-to-deploy-a-django-application/) for Django's deployment. 
-
-The general spets are:
-1. create a account on Back4app.
-2. install Django (with pip) and start Django's project (with ``` django-admin startproject mysite ```). Observation: it is similar to the Djongo's [tutorial](https://docs.djangoproject.com/en/5.1/intro/tutorial01/). Here the project file scturcture are create, special the file *manage.py*. However, they have difference on next step.
-4 - migration 
-
-It is the s process
-
-# File and code strucutre
-
-
-
-```
-mymusicplayer/
-├── backend/
-│   ├── Dockerfile
-│   ├── manage.py
-│   ├── mymusicplayer/
-│   │   ├── __init__.py
-│   │   ├── settings.py
-│   │   ├── urls.py
-│   │   ├── wsgi.py
-│   ├── music/
-│   │   ├── __init__.py
-│   │   ├── admin.py
-│   │   ├── apps.py
-│   │   ├── models.py
-│   │   ├── views.py
-│   │   ├── urls.py
-│   │   ├── migrations/
-│   │   └── templates/
-├── frontend/
-│   ├── Dockerfile
-│   ├── package.json
-│   ├── public/
-│   ├── src/
-│   │   ├── App.vue
-│   │   ├── main.js
-├── docker-compose.yml
-├── .gitignore
-└── README.md
-```
+The idea was frist deal with Tailwind and then Vue.js as recommend [elsewhere](https://tailgrids.com/blog/tailwind-css-integration-with-frameworks-and-tools). However, both has been not implement due to the the same reason as before, at deployment phase. 
 
 
 # Conclusion Remarks
 
+The project has finished sucessfully with a basic version in development modus and partially in advanced modus such as production and deployment. The developent modus version includs all elements to make the app viable. The API from Spotify was implemented at the backend with separated data banck (SQLite). The user can thus search and play music from Spotify. The registration is also working and the user can have their own play list. 
 
-## tips
-visualize and plan the file scture before starting the conde was important to understand the entire project.
+This modus only was very complex for beginner and I have learned a lot. The strategy of using two apps, api and music_player_app, corroborate well with several of the 12 Factors of Adam Wiggins for building modern, scalable software development principles:
+   - Codebase: separate apps in the same Django project kept a single codebase with separte logical concerns and a clear tracking of different functionalities.
+   - Dependencies: each app can clearly define and manage its own dependencies, making it easier to maintain and update required libraries.
+   - Config: more apps allowed the principle of storing configuration in separte the environment.
+   - Backing Services: the project's structure allowed integration and configuration of supporting services like databases, tailored to each app's specific needs.
+   - Processes: each app could run as independent processes, facilitating better resource management and scaling.
+   - Port Binding: each app could be configured to listen on specific ports, which is beneficial for separating concerns, especially for the api service.
+   - Dev/Prod Parity: with modular approach, each app could be developed, tested, and deployed independently, ensuring consistency across development and production environments.
 
-.gitingore and .dockerignore
-SEO
-sequency django, git... not git frist!... due to file structure with django e and containers image. ... SQL to PostSQL after Django default ready, but before Docker steps.
+At the beginning, the sequencies of proceed and files structure was totally difficult to visualise. The sequences play an important role, like git first of all and containers before deployment.
 
-If the project use the tools such as git and containers, the enviranmental variables can be easily exposed on the internet. The .env makes only sense if it is set on igoneres' files of Git as well as Docker (or similar such as Heroku). In such way the environmental variables are not on the script shared by creating image for containers as well as by controling version, considering that it is remote on plattaforms such as GitHub and GitLab. The .dockerignore is normally not considered on recomendations associate to .env as security proceeds (*e.g.*, [Thompson, 2023](https://www.makeuseof.com/django-secret-key-generate-new/)), but the logic is the same for .gitignore.
+When project use the tools such as git and containers it naturally increse the complexity and demands security awarness. The enviranmental variables could be easily exposed on the internet. The .env makes only sense if it is set on igoneres' files of Git as well as Docker (or similar such as Heroku). In such way the environmental variables were not on the script shared by creating image for containers as well as by controling version, considering that it is remote on plattaforms such as GitHub and GitLab. The .dockerignore is normally not considered on recomendations associate to .env as security proceeds (*e.g.*, [Thompson, 2023](https://www.makeuseof.com/django-secret-key-generate-new/)), but the logic is the same for .gitignore.
 
-By the other hand, there is alternativ to ingore files such as setting the environmental variable direct on the server or controling then with instruction of Docker's CLI (e.g., E[NV](https://docs.docker.com/reference/dockerfile/#env)). However, .dockerignore file may be a more simple way to exclude files and directories from the build context ([Docker's doc](https://docs.docker.com/reference/dockerfile/#dockerignore-file)).
+By the other hand, there was alternativ to ingore files such as setting the environmental variable direct on the server or controling then with instruction of Docker's CLI (e.g., E[NV](https://docs.docker.com/reference/dockerfile/#env)). However, .dockerignore file may be a more simple way to exclude files and directories from the build context ([Docker's doc](https://docs.docker.com/reference/dockerfile/#dockerignore-file)).
 
-The backend only was a very big chanllange and took longtime to be implemented. Many key infornation are very poor documented (e.g., [secret key](https://docs.djangoproject.com/en/4.0/ref/utils/) oft reported by users [[Howard](https://code.djangoproject.com/ticket/32451) and [Sam](https://groups.google.com/g/django-developers/c/0nHdj8X_v6Y?pli=1)]) and took long time to find a solution. Thus, web frameworks are very helpful, but they work almost as a black box and require not straithforward oft adaptaions. 
+The backend only was a very big chanllange and took longtime to be implemented. Many key infornation were very poor documented (e.g., [secret key](https://docs.djangoproject.com/en/4.0/ref/utils/) oft reported by users [[Howard](https://code.djangoproject.com/ticket/32451) and [Sam](https://groups.google.com/g/django-developers/c/0nHdj8X_v6Y?pli=1)]) and took long time to find solutions even for simple demands. Every step took longer to advace. Thus, web frameworks are very helpful, but they work almost as a black box and require not straithforward oft adaptaions. 
 
-
-## 2 Django's App and 12 Factors
-
-The strategy of using two apps, api and music_player_app, aligns well with several of the 12 Factors by Adam Wiggins for building scalable and maintainable applications:
-
-Codebase: By having two separate apps in the same Django project, we maintain a single codebase while separating logical concerns, ensuring a clear tracking of different functionalities.
-
-Dependencies: Each app can clearly define and manage its own dependencies, making it easier to maintain and update required libraries.
-
-Config: With separate apps, environment-specific configurations are easier to manage, adhering to the principle of storing configuration in the environment.
-
-Backing Services: This structure allows easier integration and configuration of supporting services like databases, tailored to each app's specific needs.
-
-Processes: Each app can run as independent processes, facilitating better resource management and scaling.
-
-Port Binding: Each app can be configured to listen on specific ports, which is beneficial for separating concerns, especially for the api service.
-
-Dev/Prod Parity: By modularizing the project, each app can be developed, tested, and deployed independently, ensuring consistency across development and production environments.
-
-This modular approach ensures the project is built in line with modern, scalable software development principles, as outlined in the 12 Factors.
+For the DHBW demands and semester requirements, the project has been finished in the development modus. Nevertheless, the project goes one over the other semester as private project. I hope to reduce the memory demands to fit at Back4app free account and to work more intensive on frontend with Tailwind and Vue.js in the near future.
