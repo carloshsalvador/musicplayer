@@ -11,16 +11,28 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .spotify import search_spotify
+from rest_framework.permissions import IsAuthenticated
 
 class SongListCreateView(generics.ListCreateAPIView):
-	queryset = Song.objects.all()
-	serializer_class = SongSerializer
+    serializer_class = SongSerializer
+    permission_classes = [IsAuthenticated]  # Ensure the user is authenticated
+
+    def get_queryset(self):
+        return Song.objects.filter(user=self.request.user)  # Filter songs by the logged-in user
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)  # Associate song with the logged-in user
 
 class SongDetailView(generics.RetrieveUpdateDestroyAPIView):
-	queryset = Song.objects.all()
-	serializer_class = SongSerializer
+    serializer_class = SongSerializer
+    permission_classes = [IsAuthenticated]  # Ensure the user is authenticated
+
+    def get_queryset(self):
+        return Song.objects.filter(user=self.request.user)  # Filter songs by the logged-in user
 
 class AddSongFromSpotifyView(APIView):
+    permission_classes = [IsAuthenticated]  # Ensure the user is authenticated
+
     def post(self, request):
         query = request.data.get('query')
         if query:
@@ -35,7 +47,8 @@ class AddSongFromSpotifyView(APIView):
                             duration=item['duration_ms'] // 1000,           # Convert duration from milliseconds to seconds [the same as above regards to the searchSpotify() function]
                             spotify_id=item['id'],                          # Ensure this field is available [the same as above regards to the searchSpotify() function]
                             audio_file=item['preview_url'],                 # Ensure this field is available [the same as above regards to the searchSpotify() function]
-                            audio_img=item['album']['images'][0]['url']     # Ensure this field is available [the same as above regards to the searchSpotify() function]
+                            audio_img=item['album']['images'][0]['url'],    # Ensure this field is available [the same as above regards to the searchSpotify() function]
+                            user=request.user  # Associate song with the logged-in user
                         )
                         song.save()
                 return Response({"message": "Songs added successfully (see play list below!)"}, status=status.HTTP_201_CREATED)
