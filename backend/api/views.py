@@ -24,18 +24,19 @@ class AddSongFromSpotifyView(APIView):
     def post(self, request):
         query = request.data.get('query')
         if query:
-            results = search_spotify(query)
+            results = search_spotify(query) # implemented at backend/api/spotify.py!
             if results and results['tracks']['items']:
                 for item in results['tracks']['items']:
-                    song = Song(
-                        title=item['name'],
-                        artist=item['artists'][0]['name'],
-                        album=item['album']['name'],                    # Ensure this field is available, when calling the funktion searchSpotify() at index.htm
-                        duration=item['duration_ms'] // 1000,           # Convert duration from milliseconds to seconds [the same as above regards to the searchSpotify() function]
-                        spotify_id=item['id'],                          # Ensure this field is available [the same as above regards to the searchSpotify() function]
-                        audio_file=item['preview_url'],                 # Ensure this field is available [the same as above regards to the searchSpotify() function]
-                        audio_img=item['album']['images'][0]['url']     # Ensure this field is available [the same as above regards to the searchSpotify() function]
-                    )
-                    song.save()
+                    if item['preview_url']:  # only music with url! see backend/api/spotify.py!
+                        song = Song(
+                            title=item['name'],
+                            artist=item['artists'][0]['name'],
+                            album=item['album']['name'],                    # Ensure this field is available, when calling the funktion searchSpotify() at index.htm
+                            duration=item['duration_ms'] // 1000,           # Convert duration from milliseconds to seconds [the same as above regards to the searchSpotify() function]
+                            spotify_id=item['id'],                          # Ensure this field is available [the same as above regards to the searchSpotify() function]
+                            audio_file=item['preview_url'],                 # Ensure this field is available [the same as above regards to the searchSpotify() function]
+                            audio_img=item['album']['images'][0]['url']     # Ensure this field is available [the same as above regards to the searchSpotify() function]
+                        )
+                        song.save()
                 return Response({"message": "Songs added successfully (see play list below!)"}, status=status.HTTP_201_CREATED)
         return Response({"error": "check backend/api/views.py"}, status=status.HTTP_400_BAD_REQUEST)
